@@ -32,8 +32,8 @@ public class MainScene {
 		graphicsContext.clearRect(0, 0, cv_tours.getWidth(), cv_tours.getHeight());
 		
 		
-		graphicsContext.setFill(Color.BLACK);
-		graphicsContext.setStroke(Color.FIREBRICK);
+		graphicsContext.setStroke(Color.rgb(0, 0, 255, 0.4));
+		graphicsContext.setGlobalAlpha(10);
 		graphicsContext.setLineWidth(1.0);
 
 		// x1,y1,x2,y2
