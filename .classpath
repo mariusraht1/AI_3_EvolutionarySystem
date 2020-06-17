@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-14.0.1">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="lib/dll"/>
+	<classpathentry kind="lib" path="lib/mod/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/mod/javafx.web.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
