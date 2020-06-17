@@ -19,6 +19,8 @@ public class Main extends Application {
 	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}
+	
+	public static int DefaultNumOfCities = 15;
 
 	@Override
 	public void start(Stage primaryStage) {

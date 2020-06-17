@@ -37,7 +37,7 @@
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: lightgrey; -fx-background-color: white;" GridPane.columnIndex="3" GridPane.rowSpan="7">
                <children>
-                  <Canvas height="400.0" width="400.0" />
+                  <Canvas fx:id="cv_tours" height="400.0" width="400.0" />
                </children>
             </StackPane>
             <Label text="Städte:" GridPane.rowIndex="1" />
@@ -56,9 +56,9 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Reset" GridPane.columnIndex="3" />
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Play" GridPane.columnIndex="2" />
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="3" />
+                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" />
+                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label text="Steps:" />
                   <TextField fx:id="tf_numOfSteps1" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
                </children>
@@ -78,9 +78,9 @@
                   <Insets top="5.0" />
                </padding>
             </Separator>
-            <TextField fx:id="tf_numOfSteps11" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="tf_numOfCities" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cb_strategy" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_setOptions" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
