@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Evolutionary System for Travelling Sales Man Problem
+ * Evolutionary System for Traveling Salesman Problem
  * 
  * @author Marius Raht
  * @version 17.06.2020-001

@@ -1,5 +1,5 @@
 # AI_3_EvolutionarySystem
-Evolutionary System for Travelling Sales Man Problem
+Evolutionary System for Traveling Salesman Problem
 
 <b>Installation Note:</b>
 
