@@ -19,8 +19,12 @@ public class Main extends Application {
 	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}
-	
+
+	public static int MaxNumOfCities = 50;
 	public static int DefaultNumOfCities = 15;
+	public static int DefaultNumOfTours = 50;
+	public static final int MaxNumOfSteps = 500;
+	public static int DefaultNumOfSteps = 1;
 
 	@Override
 	public void start(Stage primaryStage) {

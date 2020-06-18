@@ -29,6 +29,8 @@ public class Tour {
 
 			distance += Math.sqrt(xDistance + yDistance);
 		}
+		
+		distance = Utilities.getInstance().formatDouble("0.00", distance);
 
 		return distance;
 	}
