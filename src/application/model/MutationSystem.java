@@ -23,7 +23,7 @@ public class MutationSystem {
 	private MutationSystem() {
 	}
 	
-	// TODO Mutate 
+	// TODO Mutate by switching 2 cities
 	public void strategy1() {
 		List<Tour> tours = Tourmanager.getInstance().orderByTotalDistance();
 		
@@ -36,7 +36,7 @@ public class MutationSystem {
 		
 	}
 	
-	// 
+	// TODO Mutating by switching cities between tours?
 	public void strategy2(List<Tour> tours) {
 		Tour t = new Tour(new ArrayList<City>());
 
