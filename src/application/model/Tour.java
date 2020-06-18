@@ -1,6 +1,5 @@
 package application.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities;
@@ -19,6 +18,10 @@ public class Tour {
 
 	public Tour(List<City> cities) {
 		setCities(cities);
+	}
+
+	public Tour(Tour tour) {
+		cities = tour.getCities();
 	}
 
 	public double getTotalDistance() {
@@ -50,20 +53,5 @@ public class Tour {
 		
 		gc.closePath();
 		gc.stroke();
-	}
-
-	// Switch 2 random cities
-	public void mutate() {
-		int c1 = Utilities.getInstance().generateRandom(0, getCities().size() - 1);
-		int c2 = Utilities.getInstance().generateRandom(0, getCities().size() - 1);
-
-		City tmpCity = getCities().get(c1);
-		getCities().set(c1, getCities().get(c2));
-		getCities().set(c2, tmpCity);
-	}
-
-	// NEW: Mix 2 Tours
-	public void mutate(Tour tour) {
-		
 	}
 }

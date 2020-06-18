@@ -130,14 +130,7 @@ public class Tourmanager {
 
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		for (int n = 1; n <= numOfSteps; n++) {
-			MutationSystem.getInstance().strategy1();
-			
-			
-			for (Tour tour : tours) {
-				
-				
-				tour.mutate();
-			}
+			MutationSystem.getInstance().strategy_1();
 		}
 				
 		Tourmanager.getInstance().draw(canvas);
