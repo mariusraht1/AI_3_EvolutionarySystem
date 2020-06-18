@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Tour {
 	private List<City> cities;
@@ -29,30 +30,40 @@ public class Tour {
 
 			distance += Math.sqrt(xDistance + yDistance);
 		}
-		
+
 		distance = Utilities.getInstance().formatDouble("0.00", distance);
 
 		return distance;
 	}
 
+	public void draw(GraphicsContext gc) {
+		gc.beginPath();
+
+		for (int i = 0; i < getCities().size() - 1; i++) {
+			if (i == 0) {
+				gc.moveTo(getCities().get(i).getX(), getCities().get(i).getY());
+			}
+
+			gc.lineTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
+			gc.moveTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
+		}
+		
+		gc.closePath();
+		gc.stroke();
+	}
+
 	// Switch 2 random cities
-	public Tour mutate() {
-		Tour t = new Tour(new ArrayList<City>(cities));
+	public void mutate() {
+		int c1 = Utilities.getInstance().generateRandom(0, getCities().size() - 1);
+		int c2 = Utilities.getInstance().generateRandom(0, getCities().size() - 1);
 
-		int c1 = Utilities.getInstance().generateRandom(0, t.getCities().size() - 1);
-		int c2 = Utilities.getInstance().generateRandom(0, t.getCities().size() - 1);
-
-		City tmpCity = t.getCities().get(c1);
-		t.getCities().set(c1, t.getCities().get(c2));
-		t.getCities().set(c2, tmpCity);
-
-		return t;
+		City tmpCity = getCities().get(c1);
+		getCities().set(c1, getCities().get(c2));
+		getCities().set(c2, tmpCity);
 	}
 
 	// NEW: Mix 2 Tours
-	public Tour mutate(Tour tour) {
-		Tour t = new Tour(new ArrayList<City>());
-
-		return t;
+	public void mutate(Tour tour) {
+		
 	}
 }

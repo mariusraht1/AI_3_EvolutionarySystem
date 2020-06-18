@@ -2,6 +2,7 @@ package application.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import application.Main;
@@ -41,7 +42,7 @@ public class Tourmanager {
 	public void setNumOfTours(int numOfTours) {
 		this.numOfTours = numOfTours;
 	}
-	
+
 	private List<Tour> tours = Arrays.asList(new Tour[numOfTours]);
 
 	public List<Tour> getTours() {
@@ -87,58 +88,63 @@ public class Tourmanager {
 		return tours;
 	}
 
-	public void draw(Canvas cv_tours) {
-		GraphicsContext gc = cv_tours.getGraphicsContext2D();
-		gc.clearRect(0, 0, cv_tours.getWidth(), cv_tours.getHeight());
-		gc.setStroke(Color.rgb(0, 0, 255, 0.04));
+	public void draw(Canvas canvas) {
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setStroke(Color.rgb(0, 0, 255, 0.02));
 		gc.setLineWidth(1.0);
 
 		for (Tour tour : tours) {
-			gc.beginPath();
-
-			for (int i = 0; i < tour.getCities().size() - 1; i++) {
-				if (i == 0) {
-					gc.moveTo(tour.getCities().get(i).getX(), tour.getCities().get(i).getY());
-				}
-
-				gc.lineTo(tour.getCities().get(i + 1).getX(), tour.getCities().get(i + 1).getY());
-				gc.moveTo(tour.getCities().get(i + 1).getX(), tour.getCities().get(i + 1).getY());
-			}
-
-			gc.closePath();
-			gc.stroke();
+			tour.draw(gc);
 		}
 	}
 
-	public void play(int numOfSteps, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
-		// TODO Mutate and draw
-		
-		
-		
-		
-	}
-	
 	public Tour getTourByMinTotalDistance() {
 		Tour min = tours.get(0);
-		
-		for(int i = 1; i < tours.size(); i++) {
-			if(tours.get(i).getTotalDistance() < min.getTotalDistance()) {
+
+		for (int i = 1; i < tours.size(); i++) {
+			if (tours.get(i).getTotalDistance() < min.getTotalDistance()) {
 				min = tours.get(i);
 			}
 		}
-		
+
 		return min;
 	}
-	
+
 	public Tour getTourByMaxTotalDistance() {
 		Tour max = tours.get(0);
-		
-		for(int i = 1; i < tours.size(); i++) {
-			if(tours.get(i).getTotalDistance() > max.getTotalDistance()) {
+
+		for (int i = 1; i < tours.size(); i++) {
+			if (tours.get(i).getTotalDistance() > max.getTotalDistance()) {
 				max = tours.get(i);
 			}
 		}
-		
+
 		return max;
+	}
+
+	public List<Tour> orderByTotalDistance() {
+		Collections.sort(tours, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
+		return tours;
+	}
+
+	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
+		for (int n = 1; n <= numOfSteps; n++) {
+			MutationSystem.getInstance().strategy1();
+			
+			
+			for (Tour tour : tours) {
+				
+				
+				tour.mutate();
+			}
+		}
+				
+		Tourmanager.getInstance().draw(canvas);
+		
+		lbl_minTotalDistance.setText(
+				String.format("%,.2f", Tourmanager.getInstance().getTourByMinTotalDistance().getTotalDistance()));
+		lbl_maxTotalDistance.setText(
+				String.format("%,.2f", Tourmanager.getInstance().getTourByMaxTotalDistance().getTotalDistance()));
 	}
 }

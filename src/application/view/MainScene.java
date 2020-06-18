@@ -44,10 +44,10 @@ public class MainScene {
 
 		Tourmanager.getInstance().draw(cv_tours);
 
-		lbl_minTotalDistance
-				.setText(String.valueOf(Tourmanager.getInstance().getTourByMinTotalDistance().getTotalDistance()));
-		lbl_maxTotalDistance
-				.setText(String.valueOf(Tourmanager.getInstance().getTourByMaxTotalDistance().getTotalDistance()));
+		lbl_minTotalDistance.setText(
+				String.format("%,.2f", Tourmanager.getInstance().getTourByMinTotalDistance().getTotalDistance()));
+		lbl_maxTotalDistance.setText(
+				String.format("%,.2f", Tourmanager.getInstance().getTourByMaxTotalDistance().getTotalDistance()));
 	}
 
 	@FXML
@@ -74,7 +74,7 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Tourmanager.getInstance().play(numOfSteps, lbl_minTotalDistance, lbl_maxTotalDistance);
+				Tourmanager.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
