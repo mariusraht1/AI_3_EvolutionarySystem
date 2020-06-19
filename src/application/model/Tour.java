@@ -1,11 +1,22 @@
 package application.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Tour {
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private List<City> cities;
 
 	public List<City> getCities() {
@@ -16,12 +27,14 @@ public class Tour {
 		this.cities = cities;
 	}
 
-	public Tour(List<City> cities) {
+	public Tour(String name, List<City> cities) {
+		setName(name);
 		setCities(cities);
 	}
 
 	public Tour(Tour tour) {
-		cities = tour.getCities();
+		setName(tour.getName());
+		setCities(new ArrayList<City>(tour.getCities()));
 	}
 
 	public double getTotalDistance() {
@@ -50,7 +63,7 @@ public class Tour {
 			gc.lineTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
 			gc.moveTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
 		}
-		
+
 		gc.closePath();
 		gc.stroke();
 	}

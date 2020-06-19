@@ -44,10 +44,10 @@ public class MainScene {
 
 		Tourmanager.getInstance().draw(cv_tours);
 
-		lbl_minTotalDistance.setText(
-				String.format("%,.2f", Tourmanager.getInstance().getTourByMinTotalDistance().getTotalDistance()));
-		lbl_maxTotalDistance.setText(
-				String.format("%,.2f", Tourmanager.getInstance().getTourByMaxTotalDistance().getTotalDistance()));
+		lbl_minTotalDistance
+				.setText(String.format("%,.2f", Tourmanager.getInstance().getTours().get(0).getTotalDistance()));
+		lbl_maxTotalDistance.setText(String.format("%,.2f", Tourmanager.getInstance().getTours()
+				.get(Tourmanager.getInstance().getNumOfTours() - 1).getTotalDistance()));
 	}
 
 	@FXML

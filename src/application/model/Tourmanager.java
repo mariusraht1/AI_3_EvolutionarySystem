@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import application.Log;
 import application.Main;
 import application.Utilities;
 import javafx.scene.canvas.Canvas;
@@ -82,8 +83,10 @@ public class Tourmanager {
 				tmpCities.remove(random);
 			}
 
-			tours.set(i, new Tour(citiesPerTour));
+			tours.set(i, new Tour("Tour " + String.valueOf(i + 1), citiesPerTour));
 		}
+
+		orderByTotalDistance();
 
 		return tours;
 	}
@@ -99,30 +102,6 @@ public class Tourmanager {
 		}
 	}
 
-	public Tour getTourByMinTotalDistance() {
-		Tour min = tours.get(0);
-
-		for (int i = 1; i < tours.size(); i++) {
-			if (tours.get(i).getTotalDistance() < min.getTotalDistance()) {
-				min = tours.get(i);
-			}
-		}
-
-		return min;
-	}
-
-	public Tour getTourByMaxTotalDistance() {
-		Tour max = tours.get(0);
-
-		for (int i = 1; i < tours.size(); i++) {
-			if (tours.get(i).getTotalDistance() > max.getTotalDistance()) {
-				max = tours.get(i);
-			}
-		}
-
-		return max;
-	}
-
 	public List<Tour> orderByTotalDistance() {
 		Collections.sort(tours, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
 		return tours;
@@ -130,14 +109,33 @@ public class Tourmanager {
 
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		for (int n = 1; n <= numOfSteps; n++) {
-			MutationSystem.getInstance().strategy_1();
+			if (Tourmanager.getInstance().hasDifferentDistances()) {
+				Tourmanager.getInstance().orderByTotalDistance();
+				MutationSystem.getInstance().strategy_1();
+			} else {
+				Log.getInstance().add("Optimum has been found:");
+				for (int i = 0; i < Tourmanager.getInstance().getTours().get(0).getCities().size(); i++) {
+					Log.getInstance().add(String.valueOf(i + 1) + ") "
+							+ Tourmanager.getInstance().getTours().get(0).getCities().get(i).getName());
+				}
+			}
 		}
-				
+
 		Tourmanager.getInstance().draw(canvas);
-		
-		lbl_minTotalDistance.setText(
-				String.format("%,.2f", Tourmanager.getInstance().getTourByMinTotalDistance().getTotalDistance()));
-		lbl_maxTotalDistance.setText(
-				String.format("%,.2f", Tourmanager.getInstance().getTourByMaxTotalDistance().getTotalDistance()));
+
+		lbl_minTotalDistance
+				.setText(String.format("%,.2f", Tourmanager.getInstance().getTours().get(0).getTotalDistance()));
+		lbl_maxTotalDistance.setText(String.format("%,.2f",
+				Tourmanager.getInstance().getTours().get(getNumOfTours() - 1).getTotalDistance()));
+	}
+
+	private boolean hasDifferentDistances() {
+		for (int i = 1; i < tours.size(); i++) {
+			if (tours.get(i).getTotalDistance() != tours.get(i - 1).getTotalDistance()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
