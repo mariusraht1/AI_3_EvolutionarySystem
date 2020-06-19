@@ -33,8 +33,8 @@ public class MutationSystem {
 			Tour betterTour = new Tour(tours.get(random));		
 			Tour worseTour = tours.get(tours.size() - 1 - i);
 
-			Log.getInstance().add("Mutate " + betterTour.getName() + " (" + betterTour.getTotalDistance()
-					+ ") and replace " + worseTour.getName() + " (" + worseTour.getTotalDistance() + ")");
+//			Log.getInstance().add("Mutate " + betterTour.getName() + " (" + betterTour.getTotalDistance()
+//					+ ") and replace " + worseTour.getName() + " (" + worseTour.getTotalDistance() + ")");
 
 			int c1 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);
 			int c2 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);

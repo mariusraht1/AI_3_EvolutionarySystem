@@ -24,7 +24,7 @@ public class Tourmanager {
 		return instance;
 	}
 
-	private int numOfCities = Main.DefaultNumOfCities;
+	private int numOfCities;
 
 	public int getNumOfCities() {
 		return numOfCities;
@@ -34,7 +34,7 @@ public class Tourmanager {
 		this.numOfCities = numOfCities;
 	}
 
-	private int numOfTours = Main.DefaultNumOfTours;
+	private int numOfTours;
 
 	public int getNumOfTours() {
 		return numOfTours;
@@ -44,7 +44,7 @@ public class Tourmanager {
 		this.numOfTours = numOfTours;
 	}
 
-	private List<Tour> tours = Arrays.asList(new Tour[numOfTours]);
+	private List<Tour> tours;
 
 	public List<Tour> getTours() {
 		return tours;
@@ -54,7 +54,25 @@ public class Tourmanager {
 		this.tours = tours;
 	}
 
+	private Strategy strategy;
+
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+
 	private Tourmanager() {
+		reset();
+	}
+
+	public void reset() {
+		setNumOfCities(Main.DefaultNumOfCities);
+		setNumOfTours(Main.DefaultNumOfTours);
+		setTours(Arrays.asList(new Tour[numOfTours]));
+		setStrategy(Strategy.SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR);
 	}
 
 	public ArrayList<City> createCities(Canvas canvas) {
@@ -112,22 +130,24 @@ public class Tourmanager {
 			if (Tourmanager.getInstance().hasDifferentDistances()) {
 				MutationSystem.getInstance().strategy_1();
 			} else {
-				Log.getInstance().add("Optimum has been found:");
-				for (int i = 0; i < Tourmanager.getInstance().getTours().get(0).getCities().size(); i++) {
-					Log.getInstance().add(String.valueOf(i + 1) + ") "
-							+ Tourmanager.getInstance().getTours().get(0).getCities().get(i).getName());
-				}
 				break;
 			}
+		}
+
+		Log.getInstance().add("Current Optimum:");
+		for (int i = 0; i < Tourmanager.getInstance().getTours().get(0).getCities().size(); i++) {
+			Log.getInstance().add(String.valueOf(i + 1) + ") "
+					+ Tourmanager.getInstance().getTours().get(0).getCities().get(i).getName());
 		}
 
 		Tourmanager.getInstance().orderByTotalDistance();
 		Tourmanager.getInstance().draw(canvas);
 
-		lbl_minTotalDistance
-				.setText(String.format("%,.2f", Tourmanager.getInstance().getTours().get(0).getTotalDistance()));
-		lbl_maxTotalDistance.setText(String.format("%,.2f",
-				Tourmanager.getInstance().getTours().get(getNumOfTours() - 1).getTotalDistance()));
+		double min = Tourmanager.getInstance().getTours().get(0).getTotalDistance();
+		double max = Tourmanager.getInstance().getTours().get(getNumOfTours() - 1).getTotalDistance();
+
+		lbl_minTotalDistance.setText(String.format("%,.2f", min));
+		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
 	}
 
 	private boolean hasDifferentDistances() {
