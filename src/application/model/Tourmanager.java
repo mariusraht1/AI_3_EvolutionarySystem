@@ -110,7 +110,6 @@ public class Tourmanager {
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		for (int n = 1; n <= numOfSteps; n++) {
 			if (Tourmanager.getInstance().hasDifferentDistances()) {
-				Tourmanager.getInstance().orderByTotalDistance();
 				MutationSystem.getInstance().strategy_1();
 			} else {
 				Log.getInstance().add("Optimum has been found:");
@@ -118,9 +117,11 @@ public class Tourmanager {
 					Log.getInstance().add(String.valueOf(i + 1) + ") "
 							+ Tourmanager.getInstance().getTours().get(0).getCities().get(i).getName());
 				}
+				break;
 			}
 		}
 
+		Tourmanager.getInstance().orderByTotalDistance();
 		Tourmanager.getInstance().draw(canvas);
 
 		lbl_minTotalDistance

@@ -24,7 +24,9 @@ public class MutationSystem {
 
 	// Mutate by switching 2 cities
 	public void strategy_1() {
+		Tourmanager.getInstance().orderByTotalDistance();
 		List<Tour> tours = Tourmanager.getInstance().getTours();
+		
 
 		for (int i = 0; i < tours.size() * 0.20; i++) {
 			int random = Utilities.getInstance().generateRandom(0, (int) (tours.size() * 0.80) - 1);
