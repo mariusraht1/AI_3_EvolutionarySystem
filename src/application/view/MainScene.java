@@ -7,8 +7,8 @@ import application.Log;
 import application.Main;
 import application.Utilities;
 import application.model.City;
+import application.model.Population;
 import application.model.Strategy;
-import application.model.Tourmanager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -39,20 +39,20 @@ public class MainScene {
 	private void initialize() {
 		Log.getInstance().setOutputControl(lv_console);
 
-		List<City> cities = Tourmanager.getInstance().createCities(cv_tours);
-		Tourmanager.getInstance().createTours(cities);
+		List<City> cities = Population.getInstance().createCities(cv_tours);
+		Population.getInstance().initialise(cities);
 
-		tf_numOfCities.setText(String.valueOf(Tourmanager.getInstance().getNumOfCities()));
+		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
 		cb_strategy.setItems(FXCollections.observableArrayList(Strategy.values()));
-		cb_strategy.getSelectionModel().select(Tourmanager.getInstance().getStrategy());
+//		cb_strategy.getSelectionModel().select(Population.getInstance().getStrategy());
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 
 		lbl_minTotalDistance
-				.setText(String.format("%,.2f", Tourmanager.getInstance().getTours().get(0).getTotalDistance()));
-		lbl_maxTotalDistance.setText(String.format("%,.2f", Tourmanager.getInstance().getTours()
-				.get(Tourmanager.getInstance().getNumOfTours() - 1).getTotalDistance()));
+				.setText(String.format("%,.2f", Population.getInstance().getTours().get(0).getTotalDistance()));
+		lbl_maxTotalDistance.setText(String.format("%,.2f", Population.getInstance().getTours()
+				.get(Population.getInstance().getNumOfTours() - 1).getTotalDistance()));
 
-		Tourmanager.getInstance().draw(cv_tours);
+		Population.getInstance().draw(cv_tours);
 	}
 
 	@FXML
@@ -64,10 +64,10 @@ public class MainScene {
 		} else if (numOfCities > Main.MaxNumOfCities) {
 			tf_numOfCities.setText(String.valueOf(Main.MaxNumOfCities));
 		} else {
-			Tourmanager.getInstance().setNumOfCities(numOfCities);
+			Population.getInstance().setNumOfCities(numOfCities);
 
 			Strategy selectedStrategy = cb_strategy.getSelectionModel().getSelectedItem();
-			Tourmanager.getInstance().setStrategy(selectedStrategy);
+//			Population.getInstance().setStrategy(selectedStrategy);
 
 			initialize();
 		}
@@ -83,7 +83,7 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Tourmanager.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance);
+				Population.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

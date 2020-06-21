@@ -27,6 +27,16 @@ public class Tour {
 		this.cities = cities;
 	}
 
+	private double fitness;
+	
+	public double getFitness() {
+		return fitness;
+	}
+
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
+	}
+
 	public Tour(String name, List<City> cities) {
 		setName(name);
 		setCities(cities);
