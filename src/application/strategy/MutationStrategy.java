@@ -7,7 +7,7 @@ import application.model.City;
 import application.model.Tour;
 
 public enum MutationStrategy {
-	SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR("Switch 2 cities from random best tour");
+	SWAPPING("2 zufällige Städte vertauschen"), INVERSION("Sequenz zwischen 2 zufälligen Punkten spiegeln");
 
 	private String name;
 
@@ -25,15 +25,27 @@ public enum MutationStrategy {
 
 	public List<Tour> execute(List<Tour> tours) {
 		switch (this) {
-		case SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR:
-			tours = switch_2_cities_from_random_best_tour(tours);
+		case INVERSION:
+			tours = inversion(tours);
+			break;
+		case SWAPPING:
+			tours = swapping(tours);
 			break;
 		}
 		
 		return tours;
 	}
+	
+	private List<Tour> inversion(List<Tour> tours) {
+		
+		
+		
+		
+		
+		return tours;
+	}
 
-	private List<Tour> switch_2_cities_from_random_best_tour(List<Tour> tours) {
+	private List<Tour> swapping(List<Tour> tours) {
 		for (int i = 0; i < tours.size() * 0.20; i++) {
 			int random = Utilities.getInstance().generateRandom(0, (int) (tours.size() * 0.80) - 1);
 			Tour betterTour = new Tour(tours.get(random));
@@ -48,6 +60,14 @@ public enum MutationStrategy {
 
 			worseTour.setCities(betterTour.getCities());
 		}
+		
+		return tours;
+	}
+	
+	private List<Tour> getPercentileOfTours(List<Tour> tours) {
+		// NEW 1% probability
+		
+		
 		
 		return tours;
 	}

@@ -156,6 +156,7 @@ public class Population {
 		}
 	}
 	
+	// TODO Fitness: Consider max(-f(x)) as minimization function
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		for (int n = 1; n <= numOfSteps; n++) {
 
