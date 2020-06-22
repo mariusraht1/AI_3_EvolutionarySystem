@@ -9,6 +9,7 @@ import application.Log;
 import application.Main;
 import application.Utilities;
 import application.strategy.CrossoverStrategy;
+import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
 import javafx.scene.canvas.Canvas;
@@ -87,6 +88,16 @@ public class Population {
 		this.crossoverStrategy = crossoverStrategy;
 	}
 
+	private MutationStrategy mutationStrategy;
+
+	public MutationStrategy getMutationStrategy() {
+		return mutationStrategy;
+	}
+
+	public void setMutationStrategy(MutationStrategy mutationStrategy) {
+		this.mutationStrategy = mutationStrategy;
+	}
+
 	private ReplacementStrategy replacementStrategy;
 
 	public ReplacementStrategy getReplacementStrategy() {
@@ -97,6 +108,8 @@ public class Population {
 		this.replacementStrategy = replacementStrategy;
 	}
 
+	// TODO 1st city has to be the last too;
+	// Adding to list or just considering in related logic?
 	private Population() {
 		reset();
 	}
@@ -105,9 +118,10 @@ public class Population {
 		this.numOfCities = Main.DefaultNumOfCities;
 		this.numOfTours = Main.DefaultNumOfTours;
 		this.tours = Arrays.asList(new Tour[numOfTours]);
-		
+
 		this.selectionStrategy = Main.DefaultSelectionStrategy;
 		this.crossoverStrategy = Main.DefaultCrossoverStrategy;
+		this.mutationStrategy = Main.DefaultMutationStrategy;
 		this.replacementStrategy = Main.DefaultReplacementStrategy;
 	}
 
@@ -148,23 +162,6 @@ public class Population {
 		}
 
 		Collections.sort(tours, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
-	}
-
-	public void mutate(List<Tour> tours) {
-		for (int i = 0; i < tours.size() * 0.20; i++) {
-			int random = Utilities.getInstance().generateRandom(0, (int) (tours.size() * 0.80) - 1);
-			Tour betterTour = new Tour(tours.get(random));
-			Tour worseTour = tours.get(tours.size() - 1 - i);
-
-			int c1 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);
-			int c2 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);
-
-			City tmpCity = betterTour.getCities().get(c1);
-			betterTour.getCities().set(c1, betterTour.getCities().get(c2));
-			betterTour.getCities().set(c2, tmpCity);
-
-			worseTour.setCities(betterTour.getCities());
-		}
 	}
 
 	public void draw(Canvas canvas) {

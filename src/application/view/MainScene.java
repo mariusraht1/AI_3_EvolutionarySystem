@@ -9,6 +9,7 @@ import application.Utilities;
 import application.model.City;
 import application.model.Population;
 import application.strategy.CrossoverStrategy;
+import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
 import javafx.collections.FXCollections;
@@ -26,6 +27,8 @@ public class MainScene {
 	private ComboBox<SelectionStrategy> cb_selection_strategy;
 	@FXML
 	private ComboBox<CrossoverStrategy> cb_crossover_strategy;
+	@FXML
+	private ComboBox<MutationStrategy> cb_mutation_strategy;
 	@FXML
 	private ComboBox<ReplacementStrategy> cb_replacement_strategy;
 	@FXML
@@ -55,6 +58,8 @@ public class MainScene {
 		cb_selection_strategy.getSelectionModel().select(Population.getInstance().getSelectionStrategy());
 		cb_crossover_strategy.setItems(FXCollections.observableArrayList(CrossoverStrategy.values()));
 		cb_crossover_strategy.getSelectionModel().select(Population.getInstance().getCrossoverStrategy());
+		cb_mutation_strategy.setItems(FXCollections.observableArrayList(MutationStrategy.values()));
+		cb_mutation_strategy.getSelectionModel().select(Population.getInstance().getMutationStrategy());
 		cb_replacement_strategy.setItems(FXCollections.observableArrayList(ReplacementStrategy.values()));
 		cb_replacement_strategy.getSelectionModel().select(Population.getInstance().getReplacementStrategy());
 
@@ -82,6 +87,9 @@ public class MainScene {
 			
 			CrossoverStrategy selectedCrossoverStrategy = cb_crossover_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setCrossoverStrategy(selectedCrossoverStrategy);
+			
+			MutationStrategy selectedMutationStrategy = cb_mutation_strategy.getSelectionModel().getSelectedItem();
+			Population.getInstance().setMutationStrategy(selectedMutationStrategy);
 			
 			ReplacementStrategy selectedReplacementStrategy = cb_replacement_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setReplacementStrategy(selectedReplacementStrategy);

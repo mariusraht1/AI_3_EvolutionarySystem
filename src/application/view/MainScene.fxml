@@ -34,6 +34,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
           <RowConstraints />
             <RowConstraints />
@@ -60,7 +61,7 @@
             <Label text="Städteanzahl:" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <Label text="Paare-Selektion:" GridPane.columnSpan="2" GridPane.rowIndex="2" />
             <ListView fx:id="lv_console" prefWidth="350.0" GridPane.columnIndex="8" GridPane.rowSpan="10" />
-            <Label text="Ablaufsteuerung:" GridPane.columnSpan="3" GridPane.rowIndex="6">
+            <Label text="Ablaufsteuerung:" GridPane.columnSpan="3" GridPane.rowIndex="7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -70,35 +71,37 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Separator GridPane.columnSpan="7" GridPane.rowIndex="5">
+            <Separator GridPane.columnSpan="7" GridPane.rowIndex="6">
                <padding>
                   <Insets top="5.0" />
                </padding>
             </Separator>
             <TextField fx:id="tf_numOfCities" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <ComboBox fx:id="cb_selection_strategy" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="2" />
-            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_setOptions" text="OK" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-            <TextField fx:id="tf_numOfSteps" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <Label text="Min. Gesamtstrecke:" GridPane.columnIndex="4" GridPane.rowIndex="7">
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_setOptions" text="OK" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <TextField fx:id="tf_numOfSteps" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+            <Label text="Min. Gesamtstrecke:" GridPane.columnIndex="4" GridPane.rowIndex="8">
                <padding>
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Label fx:id="lbl_maxTotalDistance" text="0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-            <Label text="Max. Gesamtstrecke:" GridPane.columnIndex="4" GridPane.rowIndex="8">
+            <Label fx:id="lbl_maxTotalDistance" text="0" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+            <Label text="Max. Gesamtstrecke:" GridPane.columnIndex="4" GridPane.rowIndex="9">
                <padding>
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Label fx:id="lbl_minTotalDistance" text="0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-            <Label text="Steps:" GridPane.rowIndex="7" />
+            <Label fx:id="lbl_minTotalDistance" text="0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+            <Label text="Steps:" GridPane.rowIndex="8" />
             <ComboBox fx:id="cb_crossover_strategy" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="3" />
             <Label text="Rekombination:" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-            <Label text="Austausch:" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-            <ComboBox fx:id="cb_replacement_strategy" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="4" />
+            <Label text="Austausch:" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+            <ComboBox fx:id="cb_replacement_strategy" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="5" />
+            <Label text="Mutation:" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            <ComboBox fx:id="cb_mutation_strategy" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

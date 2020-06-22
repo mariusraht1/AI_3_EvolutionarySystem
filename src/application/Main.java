@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import application.strategy.CrossoverStrategy;
+import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
 import javafx.application.Application;
@@ -31,6 +32,7 @@ public class Main extends Application {
 	
 	public static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
 	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR;
+	public static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR;
 	public static ReplacementStrategy DefaultReplacementStrategy = ReplacementStrategy.ONLY_CHILDREN;
 
 	@Override
