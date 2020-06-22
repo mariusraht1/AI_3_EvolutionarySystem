@@ -8,7 +8,9 @@ import application.Main;
 import application.Utilities;
 import application.model.City;
 import application.model.Population;
-import application.model.Strategy;
+import application.strategy.CrossoverStrategy;
+import application.strategy.ReplacementStrategy;
+import application.strategy.SelectionStrategy;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -21,7 +23,11 @@ public class MainScene {
 	@FXML
 	private TextField tf_numOfCities;
 	@FXML
-	private ComboBox<Strategy> cb_strategy;
+	private ComboBox<SelectionStrategy> cb_selection_strategy;
+	@FXML
+	private ComboBox<CrossoverStrategy> cb_crossover_strategy;
+	@FXML
+	private ComboBox<ReplacementStrategy> cb_replacement_strategy;
 	@FXML
 	private TextField tf_numOfSteps;
 	@FXML
@@ -43,9 +49,14 @@ public class MainScene {
 		Population.getInstance().initialise(cities);
 
 		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
-		cb_strategy.setItems(FXCollections.observableArrayList(Strategy.values()));
-//		cb_strategy.getSelectionModel().select(Population.getInstance().getStrategy());
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
+
+		cb_selection_strategy.setItems(FXCollections.observableArrayList(SelectionStrategy.values()));
+		cb_selection_strategy.getSelectionModel().select(Population.getInstance().getSelectionStrategy());
+		cb_crossover_strategy.setItems(FXCollections.observableArrayList(CrossoverStrategy.values()));
+		cb_crossover_strategy.getSelectionModel().select(Population.getInstance().getCrossoverStrategy());
+		cb_replacement_strategy.setItems(FXCollections.observableArrayList(ReplacementStrategy.values()));
+		cb_replacement_strategy.getSelectionModel().select(Population.getInstance().getReplacementStrategy());
 
 		lbl_minTotalDistance
 				.setText(String.format("%,.2f", Population.getInstance().getTours().get(0).getTotalDistance()));
@@ -65,10 +76,16 @@ public class MainScene {
 			tf_numOfCities.setText(String.valueOf(Main.MaxNumOfCities));
 		} else {
 			Population.getInstance().setNumOfCities(numOfCities);
-
-			Strategy selectedStrategy = cb_strategy.getSelectionModel().getSelectedItem();
-//			Population.getInstance().setStrategy(selectedStrategy);
-
+			
+			SelectionStrategy selectedSelectionStrategy = cb_selection_strategy.getSelectionModel().getSelectedItem();
+			Population.getInstance().setSelectionStrategy(selectedSelectionStrategy);
+			
+			CrossoverStrategy selectedCrossoverStrategy = cb_crossover_strategy.getSelectionModel().getSelectedItem();
+			Population.getInstance().setCrossoverStrategy(selectedCrossoverStrategy);
+			
+			ReplacementStrategy selectedReplacementStrategy = cb_replacement_strategy.getSelectionModel().getSelectedItem();
+			Population.getInstance().setReplacementStrategy(selectedReplacementStrategy);
+			
 			initialize();
 		}
 	}

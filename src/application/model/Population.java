@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.List;
 
 import application.Log;
+import application.Main;
 import application.Utilities;
+import application.strategy.CrossoverStrategy;
+import application.strategy.ReplacementStrategy;
+import application.strategy.SelectionStrategy;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -61,6 +65,50 @@ public class Population {
 
 	public void setNumOfTours(int numOfTours) {
 		this.numOfTours = numOfTours;
+	}
+
+	private SelectionStrategy selectionStrategy;
+
+	public SelectionStrategy getSelectionStrategy() {
+		return selectionStrategy;
+	}
+
+	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
+		this.selectionStrategy = selectionStrategy;
+	}
+
+	private CrossoverStrategy crossoverStrategy;
+
+	public CrossoverStrategy getCrossoverStrategy() {
+		return crossoverStrategy;
+	}
+
+	public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+		this.crossoverStrategy = crossoverStrategy;
+	}
+
+	private ReplacementStrategy replacementStrategy;
+
+	public ReplacementStrategy getReplacementStrategy() {
+		return replacementStrategy;
+	}
+
+	public void setReplacementStrategy(ReplacementStrategy replacementStrategy) {
+		this.replacementStrategy = replacementStrategy;
+	}
+
+	private Population() {
+		reset();
+	}
+
+	public void reset() {
+		this.numOfCities = Main.DefaultNumOfCities;
+		this.numOfTours = Main.DefaultNumOfTours;
+		this.tours = Arrays.asList(new Tour[numOfTours]);
+		
+		this.selectionStrategy = Main.DefaultSelectionStrategy;
+		this.crossoverStrategy = Main.DefaultCrossoverStrategy;
+		this.replacementStrategy = Main.DefaultReplacementStrategy;
 	}
 
 	public ArrayList<City> createCities(Canvas canvas) {

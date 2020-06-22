@@ -1,6 +1,6 @@
-package application.model;
+package application.strategy;
 
-public enum Strategy {
+public enum CrossoverStrategy {
 	SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR("Switch 2 cities from random best tour");
 
 	private String name;
@@ -13,7 +13,12 @@ public enum Strategy {
 		this.name = name;
 	}
 
-	private Strategy(String name) {
+	private CrossoverStrategy(String name) {
 		setName(name);
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }
