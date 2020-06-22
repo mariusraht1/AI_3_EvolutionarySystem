@@ -1,7 +1,12 @@
 package application.strategy;
 
+import java.util.List;
+
+import application.model.Tour;
+
 public enum SelectionStrategy {
-	BEST("Bestenselektion"), FITNESS("Fitnessproportionale Selektion"), RANK("Rangselektion"), TOURNAMENT("Turnierselektion");
+	BEST("Bestenselektion"), FITNESS("Fitnessproportionale Selektion"), RANK("Rangselektion"),
+	TOURNAMENT("Turnierselektion");
 
 	private String name;
 
@@ -16,44 +21,50 @@ public enum SelectionStrategy {
 	private SelectionStrategy(String name) {
 		setName(name);
 	}
-	
-	public void execute() {
-		switch(this) {
+
+	public List<Tour> execute(List<Tour> tours) {
+		switch (this) {
 		case BEST:
-			best();
+			tours = best(tours);
 			break;
 		case FITNESS:
-			fitness();
+			tours = fitness(tours);
 			break;
 		case RANK:
-			rank();
+			tours = rank(tours);
 			break;
 		case TOURNAMENT:
-			tournament();
+			tours = tournament(tours);
 			break;
 		}
+		
+		return tours;
 	}
-	
-	private void best() {
+
+	private List<Tour> best(List<Tour> tours) {
 		// NEW Implement best
-		
+
+		return tours;
 	}
-	
-	private void fitness() {
+
+	private List<Tour> fitness(List<Tour> tours) {
 		// NEW Implement fitness
-		
+
+		return tours;
 	}
-	
-	private void rank() {
+
+	private List<Tour> rank(List<Tour> tours) {
 		// NEW Implement rank
-		
+
+		return tours;
 	}
-	
-	private void tournament() {
+
+	private List<Tour> tournament(List<Tour> tours) {
 		// NEW Implement tournament
-		
+
+		return tours;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();

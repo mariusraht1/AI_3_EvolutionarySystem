@@ -22,16 +22,18 @@ public enum MutationStrategy {
 	private MutationStrategy(String name) {
 		setName(name);
 	}
-	
-	public void execute(List<Tour> tours) {
-		switch(this) {
+
+	public List<Tour> execute(List<Tour> tours) {
+		switch (this) {
 		case SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR:
-			switch_2_cities_from_random_best_tour(tours);
+			tours = switch_2_cities_from_random_best_tour(tours);
 			break;
 		}
+		
+		return tours;
 	}
-	
-	private void switch_2_cities_from_random_best_tour(List<Tour> tours) {
+
+	private List<Tour> switch_2_cities_from_random_best_tour(List<Tour> tours) {
 		for (int i = 0; i < tours.size() * 0.20; i++) {
 			int random = Utilities.getInstance().generateRandom(0, (int) (tours.size() * 0.80) - 1);
 			Tour betterTour = new Tour(tours.get(random));
@@ -46,6 +48,8 @@ public enum MutationStrategy {
 
 			worseTour.setCities(betterTour.getCities());
 		}
+		
+		return tours;
 	}
 
 	@Override

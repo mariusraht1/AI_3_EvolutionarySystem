@@ -155,6 +155,25 @@ public class Population {
 			this.tours.set(i, new Tour("Tour " + String.valueOf(i + 1), citiesPerTour));
 		}
 	}
+	
+	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
+		for (int n = 1; n <= numOfSteps; n++) {
+
+		}
+
+		Log.getInstance().add("Current Optimum:");
+		for (int i = 0; i < getTours().get(0).getCities().size(); i++) {
+			Log.getInstance().add(String.valueOf(i + 1) + ") " + getTours().get(0).getCities().get(i).getName());
+		}
+
+		draw(canvas);
+
+		double min = getTours().get(0).getTotalDistance();
+		double max = getTours().get(getNumOfTours() - 1).getTotalDistance();
+
+		lbl_minTotalDistance.setText(String.format("%,.2f", min));
+		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
+	}
 
 	public void rateFitness() {
 		for (Tour tour : tours) {
@@ -162,6 +181,22 @@ public class Population {
 		}
 
 		Collections.sort(tours, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
+	}
+	
+	public List<Tour> selection(List<Tour> tours) {
+		return selectionStrategy.execute(tours);
+	}
+	
+	public List<Tour> crossover(List<Tour> tours) {
+		return crossoverStrategy.execute(tours);
+	}
+	
+	public List<Tour> mutate(List<Tour> tours) {
+		return mutationStrategy.execute(tours);
+	}
+	
+	public List<Tour> replace(List<Tour> tours) {
+		return replacementStrategy.execute(tours);
 	}
 
 	public void draw(Canvas canvas) {
@@ -173,29 +208,5 @@ public class Population {
 		for (Tour tour : tours) {
 			tour.draw(gc);
 		}
-	}
-
-	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
-		for (int n = 1; n <= numOfSteps; n++) {
-//		if (Tourmanager.getInstance().hasDifferentDistances()) {
-//			MutationSystem.getInstance().strategy_1();
-//		} else {
-//			break;
-//		}
-		}
-
-		Log.getInstance().add("Current Optimum:");
-		for (int i = 0; i < getTours().get(0).getCities().size(); i++) {
-			Log.getInstance().add(String.valueOf(i + 1) + ") " + getTours().get(0).getCities().get(i).getName());
-		}
-
-//	Tourmanager.getInstance().orderByTotalDistance();
-		draw(canvas);
-
-		double min = getTours().get(0).getTotalDistance();
-		double max = getTours().get(getNumOfTours() - 1).getTotalDistance();
-
-		lbl_minTotalDistance.setText(String.format("%,.2f", min));
-		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
 	}
 }

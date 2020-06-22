@@ -1,7 +1,11 @@
 package application.strategy;
 
+import java.util.List;
+
+import application.model.Tour;
+
 public enum CrossoverStrategy {
-	SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR("Switch 2 cities from random best tour");
+	PLACEHOLDER("---");
 
 	private String name;
 
@@ -17,19 +21,18 @@ public enum CrossoverStrategy {
 		setName(name);
 	}
 	
-	public void execute() {
-		switch(this) {
-		case SWITCH_2_CITIES_FROM_RANDOM_BEST_TOUR:
-			switch_2_cities_from_random_best_tour();
-			break;
-		}
-	}
-	
-	private void switch_2_cities_from_random_best_tour() {
-		// NEW Implement switch_2_cities_from_random_best_tour
+	public List<Tour> execute(List<Tour> tours) {
+		// NEW Implement CrossoverStrategy execution
 		
+		return tours;
 	}
 
+	public List<Tour> placeholder(List<Tour> tours) {
+		// NEW Implement CrossoverStrategy execution
+		
+		return tours;
+	}
+	
 	@Override
 	public String toString() {
 		return getName();
