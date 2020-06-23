@@ -50,7 +50,7 @@ public class MainScene {
 
 		List<City> cities = Population.getInstance().createCities(cv_tours);
 		Population.getInstance().initialise(cities);
-		
+
 		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 

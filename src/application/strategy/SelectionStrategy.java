@@ -1,7 +1,11 @@
 package application.strategy;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import application.Utilities;
+import application.model.Population;
 import application.model.Tour;
 
 public enum SelectionStrategy {
@@ -37,14 +41,25 @@ public enum SelectionStrategy {
 			tours = tournament(tours);
 			break;
 		}
-		
+
 		return tours;
 	}
 
 	private List<Tour> best(List<Tour> tours) {
-		// NEW Implement best
+		List<Tour> result = new ArrayList<Tour>();
+		int numOfTours = Population.getInstance().getNumOfTours();
+		int numOfParents = numOfTours / 2;
 
-		return tours;
+		Collections.sort(tours, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+		for (int i = 0; i < numOfParents; i++) {
+			try {
+				result.add((Tour)Utilities.getInstance().deepCopy(tours.get(i)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
 	}
 
 	private List<Tour> fitness(List<Tour> tours) {

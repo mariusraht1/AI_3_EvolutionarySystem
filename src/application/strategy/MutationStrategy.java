@@ -38,9 +38,9 @@ public enum MutationStrategy {
 	}
 
 	private List<Tour> inversion(List<Tour> tours) {
-		List<Tour> mutatedTours = Population.getInstance().getPercentile(tours);
+		List<Tour> result = Population.getInstance().getPercentile(tours);
 
-		for (Tour tour : mutatedTours) {
+		for (Tour tour : result) {
 			int r1 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 2);
 			int r2 = Utilities.getInstance().generateRandom(r1 + 1, tour.getCities().size() - 1);
 
@@ -57,13 +57,13 @@ public enum MutationStrategy {
 			}
 		}
 
-		return mutatedTours;
+		return result;
 	}
 
 	private List<Tour> swapping(List<Tour> tours) {
-		List<Tour> mutatedTours = Population.getInstance().getPercentile(tours);
+		List<Tour> result = Population.getInstance().getPercentile(tours);
 
-		for (Tour tour : mutatedTours) {
+		for (Tour tour : result) {
 			int r1 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 1);
 			int r2 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 1);
 
@@ -72,7 +72,7 @@ public enum MutationStrategy {
 			tour.getCities().set(r2, tmpCity);
 		}
 
-		return mutatedTours;
+		return result;
 	}
 
 	@Override

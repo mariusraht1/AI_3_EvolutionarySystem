@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -82,12 +83,23 @@ public class Utilities {
 		return number;
 	}
 
-	public Object deepCopy(Object object) throws Exception {
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		new ObjectOutputStream(outputStream).writeObject(object);
+	@SuppressWarnings("unchecked")
+	public <T extends Serializable> T deepCopy(T object) {
+		if (object == null) {
+			return null;
+		}
 
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+		try {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			new ObjectOutputStream(outputStream).writeObject(object);
 
-		return new ObjectInputStream(inputStream).readObject();
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+			Object copiedObject = new ObjectInputStream(inputStream).readObject();
+
+			return (T) copiedObject;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
