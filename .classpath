@@ -7,14 +7,32 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="lib/dll"/>
-	<classpathentry kind="lib" path="lib/mod/javafx-swt.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.base.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.media.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.swing.jar"/>
-	<classpathentry kind="lib" path="lib/mod/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/windows/lib"/>
+	<classpathentry kind="lib" path="lib/linux/lib"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/windows/mod/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/linux/mod/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="lib/osx/lib"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/osx/mod/javafx-swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

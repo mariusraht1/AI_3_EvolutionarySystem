@@ -210,4 +210,19 @@ public class Population {
 			tour.draw(gc);
 		}
 	}
+	
+	public List<Tour> getPercentile(List<Tour> tours) {
+		List<Tour> tmpTours = new ArrayList<Tour>(tours);
+		List<Tour> mutableTours = new ArrayList<Tour>();
+		int n = (int) (Population.getInstance().getNumOfTours() * 0.01);
+
+		for (int i = 0; i < n; i++) {
+			int random = Utilities.getInstance().generateRandom(0, tmpTours.size() - 1);
+
+			mutableTours.add(tmpTours.get(random));
+			tmpTours.remove(random);
+		}
+
+		return mutableTours;
+	}
 }

@@ -32,8 +32,14 @@ public class City {
 	}
 
 	public City(String name, int x, int y) {
-		setName(name);
-		setX(x);
-		setY(y);
+		this.name = name;
+		this.x = x;
+		this.y = y;
+	}
+
+	public City(City city) {
+		this.name = city.getName();
+		this.x = city.getX();
+		this.y = city.getY();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import application.Utilities;
 import application.model.City;
+import application.model.Population;
 import application.model.Tour;
 
 public enum MutationStrategy {
@@ -32,44 +33,46 @@ public enum MutationStrategy {
 			tours = swapping(tours);
 			break;
 		}
-		
+
 		return tours;
 	}
-	
+
 	private List<Tour> inversion(List<Tour> tours) {
-		
-		
-		
-		
-		
-		return tours;
+		List<Tour> mutatedTours = Population.getInstance().getPercentile(tours);
+
+		for (Tour tour : mutatedTours) {
+			int r1 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 2);
+			int r2 = Utilities.getInstance().generateRandom(r1 + 1, tour.getCities().size() - 1);
+
+			int j = r1;
+			for (int i = r2; i >= r1; i--) {
+				if (i == j) {
+					break;
+				}
+
+				// i mit j vertauschen
+				City tmpCity = tour.getCities().get(i);
+				tour.getCities().set(i, tour.getCities().get(j));
+				tour.getCities().set(j, tmpCity);
+			}
+		}
+
+		return mutatedTours;
 	}
 
 	private List<Tour> swapping(List<Tour> tours) {
-		for (int i = 0; i < tours.size() * 0.20; i++) {
-			int random = Utilities.getInstance().generateRandom(0, (int) (tours.size() * 0.80) - 1);
-			Tour betterTour = new Tour(tours.get(random));
-			Tour worseTour = tours.get(tours.size() - 1 - i);
+		List<Tour> mutatedTours = Population.getInstance().getPercentile(tours);
 
-			int c1 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);
-			int c2 = Utilities.getInstance().generateRandom(0, betterTour.getCities().size() - 1);
+		for (Tour tour : mutatedTours) {
+			int r1 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 1);
+			int r2 = Utilities.getInstance().generateRandom(0, tour.getCities().size() - 1);
 
-			City tmpCity = betterTour.getCities().get(c1);
-			betterTour.getCities().set(c1, betterTour.getCities().get(c2));
-			betterTour.getCities().set(c2, tmpCity);
-
-			worseTour.setCities(betterTour.getCities());
+			City tmpCity = new City(tour.getCities().get(r1));
+			tour.getCities().set(r1, tour.getCities().get(r2));
+			tour.getCities().set(r2, tmpCity);
 		}
-		
-		return tours;
-	}
-	
-	private List<Tour> getPercentileOfTours(List<Tour> tours) {
-		// NEW 1% probability
-		
-		
-		
-		return tours;
+
+		return mutatedTours;
 	}
 
 	@Override
