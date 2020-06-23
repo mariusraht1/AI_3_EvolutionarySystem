@@ -50,7 +50,7 @@ public class MainScene {
 
 		List<City> cities = Population.getInstance().createCities(cv_tours);
 		Population.getInstance().initialise(cities);
-
+		
 		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 
@@ -81,19 +81,20 @@ public class MainScene {
 			tf_numOfCities.setText(String.valueOf(Main.MaxNumOfCities));
 		} else {
 			Population.getInstance().setNumOfCities(numOfCities);
-			
+
 			SelectionStrategy selectedSelectionStrategy = cb_selection_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setSelectionStrategy(selectedSelectionStrategy);
-			
+
 			CrossoverStrategy selectedCrossoverStrategy = cb_crossover_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setCrossoverStrategy(selectedCrossoverStrategy);
-			
+
 			MutationStrategy selectedMutationStrategy = cb_mutation_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setMutationStrategy(selectedMutationStrategy);
-			
-			ReplacementStrategy selectedReplacementStrategy = cb_replacement_strategy.getSelectionModel().getSelectedItem();
+
+			ReplacementStrategy selectedReplacementStrategy = cb_replacement_strategy.getSelectionModel()
+					.getSelectedItem();
 			Population.getInstance().setReplacementStrategy(selectedReplacementStrategy);
-			
+
 			initialize();
 		}
 	}

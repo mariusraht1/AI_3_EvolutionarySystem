@@ -1,5 +1,9 @@
 package application;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -48,7 +52,7 @@ public class Utilities {
 
 		return osType;
 	}
-	
+
 	public double divide(double dividend, double divisor) {
 		if (divisor == 0) {
 			return 0;
@@ -74,7 +78,16 @@ public class Utilities {
 		decimalFormatSymbols.setDecimalSeparator('.');
 		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
 		number = Double.valueOf(decimalFormat.format(number));
-		
+
 		return number;
+	}
+
+	public Object deepCopy(Object object) throws Exception {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		new ObjectOutputStream(outputStream).writeObject(object);
+
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+		return new ObjectInputStream(inputStream).readObject();
 	}
 }

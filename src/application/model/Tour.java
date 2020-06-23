@@ -1,12 +1,14 @@
 package application.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Tour {
+public class Tour implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String name;
 
 	public String getName() {
