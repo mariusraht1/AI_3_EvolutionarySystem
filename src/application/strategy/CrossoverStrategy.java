@@ -38,7 +38,7 @@ public enum CrossoverStrategy {
 	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
-		Tour firstParentTour = parentTourList.get(0);
+		Tour firstParentTour = parentTourList.get(0); // TODO If odd number of tours choose firstParentTour for last entry
 
 		while (!parentTourList.isEmpty()) {
 			Tour father = parentTourList.get(0);
