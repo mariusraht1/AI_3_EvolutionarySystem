@@ -48,7 +48,7 @@ public enum SelectionStrategy {
 		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
 
 		TourList result = new TourList();
-		
+
 		for (int i = 0; i < Population.getInstance().getNumOfParents(); i++) {
 			result.add((Tour) Utilities.getInstance().deepCopy(tourList.get(i)));
 		}

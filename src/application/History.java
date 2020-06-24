@@ -55,7 +55,6 @@ public class History {
 
 	public void add() {
 
-
 //		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
 //				String.valueOf(demand), String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), String.valueOf(0),
 //				String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), FuzzyAmount.NOTHING.toString(),

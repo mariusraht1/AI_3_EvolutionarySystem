@@ -29,7 +29,7 @@ public class Main extends Application {
 	public static int DefaultNumOfTours = 100;
 	public static int MaxNumOfSteps = 500;
 	public static int DefaultNumOfSteps = 1;
-	
+
 	public static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
 	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.PLACEHOLDER;
 	public static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWAPPING;

@@ -151,8 +151,9 @@ public class Population {
 			this.tourList.set(i, new Tour("Tour " + String.valueOf(i + 1), cityListPerTour));
 		}
 	}
-	
-	// TODO 1st city has to be the last too; Adding to list or just considering in related logic?
+
+	// TODO 1st city has to be the last too; Adding to list or just considering in
+	// related logic?
 	// TODO Fitness: Consider max(-f(x)) as minimization function
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		for (int n = 1; n <= numOfSteps; n++) {
@@ -180,21 +181,21 @@ public class Population {
 
 		Collections.sort(tourList, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
 	}
-	
+
 	public TourList selection(TourList tourList) {
 		return selectionStrategy.execute(tourList);
 	}
-	
+
 	public TourList crossover(TourList tourList) {
 		return crossoverStrategy.execute(tourList);
 	}
-	
+
 	public TourList mutate(TourList tourList) {
 		return mutationStrategy.execute(tourList);
 	}
-	
-	public TourList replace(TourList tourList) {
-		return replacementStrategy.execute(tourList);
+
+	public TourList replace(TourList parentTourList, TourList childrenTourList) {
+		return replacementStrategy.execute(parentTourList, childrenTourList);
 	}
 
 	public void draw(Canvas canvas) {
@@ -207,7 +208,7 @@ public class Population {
 			tour.draw(gc);
 		}
 	}
-	
+
 	public TourList getPercentile(TourList tourList) {
 		TourList tmptourList = Utilities.getInstance().deepCopy(tourList);
 		TourList mutabletourList = new TourList();
@@ -225,14 +226,14 @@ public class Population {
 
 	public double getCumulatedFitness() {
 		double cumulatedFitness = 0.0;
-		
-		for(Tour tour : tourList) {
+
+		for (Tour tour : tourList) {
 			cumulatedFitness += tour.getFitness();
 		}
-		
+
 		return cumulatedFitness;
 	}
-	
+
 	public int getNumOfParents() {
 		return Population.getInstance().getNumOfTours() / 2;
 	}

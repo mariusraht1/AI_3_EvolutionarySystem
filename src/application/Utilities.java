@@ -34,7 +34,7 @@ public class Utilities {
 		double range = max - min;
 		double scaled = random.nextDouble() * range;
 		double shifted = scaled + min;
-		
+
 		return shifted;
 	}
 
