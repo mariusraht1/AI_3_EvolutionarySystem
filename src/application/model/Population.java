@@ -160,6 +160,7 @@ public class Population {
 		TourList nextGeneration = this.tourList;
 		
 		for (int n = 1; n <= numOfSteps; n++) {
+			rateFitness(nextGeneration);
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);

@@ -1,9 +1,13 @@
 package application.strategy;
 
+import application.Utilities;
+import application.model.CityList;
+import application.model.Population;
+import application.model.Tour;
 import application.model.TourList;
 
 public enum CrossoverStrategy {
-	PLACEHOLDER("---");
+	ONE_POINT("1-Punkt Rekombination");
 
 	private String name;
 
@@ -22,13 +26,47 @@ public enum CrossoverStrategy {
 	public TourList execute(TourList tourList) {
 		// NEW Implement CrossoverStrategy execution
 
+		switch (this) {
+		case ONE_POINT:
+			tourList = one_point(tourList);
+			break;
+		}
+
 		return tourList;
 	}
 
-	public TourList placeholder(TourList tourList) {
-		// NEW Implement CrossoverStrategy execution
+	public TourList one_point(TourList tourList) {
+		TourList childrenTourList = new TourList();
+		TourList parentTourList = new TourList(tourList);
+		Tour firstParentTour = parentTourList.get(0);
 
-		return tourList;
+		while (!parentTourList.isEmpty()) {
+			Tour father = parentTourList.get(0);
+			Tour mother = parentTourList.get(1);
+
+			int start = Utilities.getInstance().generateRandom(1, Population.getInstance().getNumOfCities() - 2);
+			int end = Population.getInstance().getNumOfCities() - 1;
+			
+			CityList child1 = new CityList();
+			CityList child2 = new CityList();
+			
+			for(int i = 0; i < start; i++) {
+				child1.add(father.getCityList().get(i));
+				child2.add(mother.getCityList().get(i));
+			}
+			
+			// NEW one_point: Determine location of father/mother city at i
+			for(int i = start; i < end; i++) {
+				
+			}
+			
+			
+
+			parentTourList.remove(0);
+			parentTourList.remove(1);
+		}
+
+		return childrenTourList;
 	}
 
 	@Override

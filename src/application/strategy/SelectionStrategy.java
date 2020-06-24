@@ -62,7 +62,7 @@ public enum SelectionStrategy {
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
-		double cumulatedFitness = Population.getInstance().getCumulatedFitness();
+		double cumulatedFitness = Population.getInstance().getCumulatedFitness(tmpTourList);
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			double random = Utilities.getInstance().getRandom(0, 1);
@@ -120,7 +120,7 @@ public enum SelectionStrategy {
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
-		double cumulatedFitness = Population.getInstance().getCumulatedFitness();
+		double cumulatedFitness = Population.getInstance().getCumulatedFitness(tmpTourList);
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			int c1 = Utilities.getInstance().generateRandom(0, tmpTourList.size() - 1);
