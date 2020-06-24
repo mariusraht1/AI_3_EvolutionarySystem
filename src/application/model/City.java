@@ -45,4 +45,16 @@ public class City implements Serializable {
 		this.x = city.getX();
 		this.y = city.getY();
 	}
+
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = false;
+
+		if (object != null && object instanceof City) {
+			City city = (City) object;
+			equals = this.name.equals(city.getName()) && this.x == city.getX() && this.y == city.getY();
+		}
+
+		return equals;
+	}
 }

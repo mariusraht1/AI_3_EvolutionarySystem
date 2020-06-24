@@ -1,8 +1,6 @@
 package application.strategy;
 
-import java.util.List;
-
-import application.model.Tour;
+import application.model.TourList;
 
 public enum CrossoverStrategy {
 	PLACEHOLDER("---");
@@ -21,16 +19,16 @@ public enum CrossoverStrategy {
 		setName(name);
 	}
 	
-	public List<Tour> execute(List<Tour> tours) {
+	public TourList execute(TourList tourList) {
 		// NEW Implement CrossoverStrategy execution
 		
-		return tours;
+		return tourList;
 	}
 
-	public List<Tour> placeholder(List<Tour> tours) {
+	public TourList placeholder(TourList tourList) {
 		// NEW Implement CrossoverStrategy execution
 		
-		return tours;
+		return tourList;
 	}
 	
 	@Override

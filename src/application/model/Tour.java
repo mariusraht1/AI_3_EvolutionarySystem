@@ -1,8 +1,6 @@
 package application.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import application.Utilities;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,18 +17,18 @@ public class Tour implements Serializable {
 		this.name = name;
 	}
 
-	private List<City> cities;
+	private CityList cityList;
 
-	public List<City> getCities() {
-		return cities;
+	public CityList getCityList() {
+		return cityList;
 	}
 
-	public void setCities(List<City> cities) {
-		this.cities = cities;
+	public void setCityList(CityList cityList) {
+		this.cityList = cityList;
 	}
 
 	private double fitness;
-	
+
 	public double getFitness() {
 		return fitness;
 	}
@@ -39,22 +37,22 @@ public class Tour implements Serializable {
 		this.fitness = fitness;
 	}
 
-	public Tour(String name, List<City> cities) {
+	public Tour(String name, CityList cityList) {
 		setName(name);
-		setCities(cities);
+		setCityList(cityList);
 	}
 
 	public Tour(Tour tour) {
-		setName(tour.getName());
-		setCities(new ArrayList<City>(tour.getCities()));
+		this.name = tour.getName();
+		this.cityList = Utilities.getInstance().deepCopy(tour.getCityList());
 	}
 
 	public double getTotalDistance() {
 		double distance = 0;
 
-		for (int i = 1; i < cities.size(); i++) {
-			double xDistance = Math.pow((cities.get(i - 1).getX() - cities.get(1).getX()), 2);
-			double yDistance = Math.pow((cities.get(i - 1).getY() - cities.get(1).getY()), 2);
+		for (int i = 1; i < cityList.size(); i++) {
+			double xDistance = Math.pow((cityList.get(i - 1).getX() - cityList.get(1).getX()), 2);
+			double yDistance = Math.pow((cityList.get(i - 1).getY() - cityList.get(1).getY()), 2);
 
 			distance += Math.sqrt(xDistance + yDistance);
 		}
@@ -67,16 +65,28 @@ public class Tour implements Serializable {
 	public void draw(GraphicsContext gc) {
 		gc.beginPath();
 
-		for (int i = 0; i < getCities().size() - 1; i++) {
+		for (int i = 0; i < getCityList().size() - 1; i++) {
 			if (i == 0) {
-				gc.moveTo(getCities().get(i).getX(), getCities().get(i).getY());
+				gc.moveTo(getCityList().get(i).getX(), getCityList().get(i).getY());
 			}
 
-			gc.lineTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
-			gc.moveTo(getCities().get(i + 1).getX(), getCities().get(i + 1).getY());
+			gc.lineTo(getCityList().get(i + 1).getX(), getCityList().get(i + 1).getY());
+			gc.moveTo(getCityList().get(i + 1).getX(), getCityList().get(i + 1).getY());
 		}
 
 		gc.closePath();
 		gc.stroke();
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = false;
+
+		if (object != null && object instanceof Tour) {
+			Tour tour = (Tour) object;
+			equals = this.name.equals(tour.getName()) && this.cityList.equals(tour.getCityList());
+		}
+
+		return equals;
 	}
 }

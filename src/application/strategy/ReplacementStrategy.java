@@ -1,8 +1,6 @@
 package application.strategy;
 
-import java.util.List;
-
-import application.model.Tour;
+import application.model.TourList;
 
 public enum ReplacementStrategy {
 	ONLY_CHILDREN("Auswahl der N-besten Touren aus Kind-Touren"),
@@ -22,29 +20,29 @@ public enum ReplacementStrategy {
 		setName(name);
 	}
 	
-	public List<Tour> execute(List<Tour> tours) {
+	public TourList execute(TourList tourList) {
 		switch(this) {
 		case ONLY_CHILDREN:
-			tours = only_children(tours);
+			tourList = only_children(tourList);
 			break;
 		case PARENTS_AND_CHILDREN:
-			tours = parents_and_children(tours);
+			tourList = parents_and_children(tourList);
 			break;
 		}
 		
-		return tours;
+		return tourList;
 	}
 
-	private List<Tour> only_children(List<Tour> tours) {
+	private TourList only_children(TourList tourList) {
 		// NEW Implement only_children
 		
-		return tours;
+		return tourList;
 	}
 	
-	private List<Tour> parents_and_children(List<Tour> tours) {
+	private TourList parents_and_children(TourList tourList) {
 		// NEW Implement parents_and_children
 		
-		return tours;
+		return tourList;
 	}
 
 	@Override

@@ -1,12 +1,10 @@
 package application.view;
 
-import java.util.List;
-
 import application.History;
 import application.Log;
 import application.Main;
 import application.Utilities;
-import application.model.City;
+import application.model.CityList;
 import application.model.Population;
 import application.strategy.CrossoverStrategy;
 import application.strategy.MutationStrategy;
@@ -48,8 +46,8 @@ public class MainScene {
 	private void initialize() {
 		Log.getInstance().setOutputControl(lv_console);
 
-		List<City> cities = Population.getInstance().createCities(cv_tours);
-		Population.getInstance().initialise(cities);
+		CityList cityList = Population.getInstance().createCities(cv_tours);
+		Population.getInstance().initialise(cityList);
 
 		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
@@ -64,8 +62,8 @@ public class MainScene {
 		cb_replacement_strategy.getSelectionModel().select(Population.getInstance().getReplacementStrategy());
 
 		lbl_minTotalDistance
-				.setText(String.format("%,.2f", Population.getInstance().getTours().get(0).getTotalDistance()));
-		lbl_maxTotalDistance.setText(String.format("%,.2f", Population.getInstance().getTours()
+				.setText(String.format("%,.2f", Population.getInstance().getTourList().get(0).getTotalDistance()));
+		lbl_maxTotalDistance.setText(String.format("%,.2f", Population.getInstance().getTourList()
 				.get(Population.getInstance().getNumOfTours() - 1).getTotalDistance()));
 
 		Population.getInstance().draw(cv_tours);

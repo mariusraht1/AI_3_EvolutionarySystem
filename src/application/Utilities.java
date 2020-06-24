@@ -30,6 +30,14 @@ public class Utilities {
 		return random.nextInt((max - min) + 1) + min;
 	}
 
+	public double getRandom(double min, double max) {
+		double range = max - min;
+		double scaled = random.nextDouble() * range;
+		double shifted = scaled + min;
+		
+		return shifted;
+	}
+
 	public enum OSType {
 		Windows, MacOS, Unix, Other
 	};
