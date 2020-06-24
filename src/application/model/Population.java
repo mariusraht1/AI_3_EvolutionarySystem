@@ -152,12 +152,18 @@ public class Population {
 		}
 	}
 
-	// TODO 1st city has to be the last too; Adding to list or just considering in
-	// related logic?
+	// TODO Considering in related logic that 1st city has to be the last too
 	// TODO Fitness: Consider max(-f(x)) as minimization function
+	// TODO Warn if there aren't enough tours to replace the previous generation,
+	// cause something went wrong
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
+		TourList nextGeneration = this.tourList;
+		
 		for (int n = 1; n <= numOfSteps; n++) {
-
+			TourList parentTourList = selection(nextGeneration);
+			TourList childrenTourList = crossover(parentTourList);
+			childrenTourList = mutate(childrenTourList);
+			nextGeneration = replace(parentTourList, childrenTourList);
 		}
 
 		Log.getInstance().add("Current Optimum:");
@@ -174,7 +180,7 @@ public class Population {
 		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
 	}
 
-	public void rateFitness() {
+	public void rateFitness(TourList tourList) {
 		for (Tour tour : tourList) {
 			tour.setFitness(tour.getTotalDistance());
 		}
@@ -204,7 +210,7 @@ public class Population {
 		gc.setStroke(Color.rgb(0, 0, 255, 0.02));
 		gc.setLineWidth(1.0);
 
-		for (Tour tour : tourList) {
+		for (Tour tour : this.tourList) {
 			tour.draw(gc);
 		}
 	}
@@ -224,7 +230,7 @@ public class Population {
 		return mutabletourList;
 	}
 
-	public double getCumulatedFitness() {
+	public double getCumulatedFitness(TourList tourList) {
 		double cumulatedFitness = 0.0;
 
 		for (Tour tour : tourList) {
