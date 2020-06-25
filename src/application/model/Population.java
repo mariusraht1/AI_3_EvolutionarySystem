@@ -65,6 +65,21 @@ public class Population {
 	public void setNumOfTours(int numOfTours) {
 		this.numOfTours = numOfTours;
 	}
+	
+	public void setSuggestedNumOfTours() {
+		int numOfTours = 1;
+		
+		for(int i = 2; i < this.numOfCities; i++) {
+			numOfTours *= i / 2;
+			
+			if(numOfTours > Main.DefaultNumOfTours) {
+				numOfTours = Main.DefaultNumOfTours;
+				break;
+			}
+		}
+		
+		this.numOfTours = numOfTours;
+	}
 
 	private SelectionStrategy selectionStrategy;
 
@@ -112,13 +127,14 @@ public class Population {
 
 	public void reset() {
 		this.numOfCities = Main.DefaultNumOfCities;
-		this.numOfTours = Main.DefaultNumOfTours;
+		setSuggestedNumOfTours();
+		
 		this.tourList = new TourList(Arrays.asList(new Tour[numOfTours]));
 
 		this.selectionStrategy = Main.DefaultSelectionStrategy;
 		this.crossoverStrategy = Main.DefaultCrossoverStrategy;
 		this.mutationStrategy = Main.DefaultMutationStrategy;
-		this.replacementStrategy = Main.DefaultReplacementStrategy;
+		this.replacementStrategy = Main.DefaultReplacementStrategy;		
 	}
 
 	public CityList createCities(Canvas canvas) {

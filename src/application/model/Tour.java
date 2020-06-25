@@ -48,12 +48,14 @@ public class Tour implements Serializable {
 	}
 
 	public double getTotalDistance() {
-		double distance = 0;
+		// last city -> first city
+		double xDistance = Math.pow((cityList.get(cityList.size() - 1).getX() - cityList.get(0).getX()), 2);
+		double yDistance = Math.pow((cityList.get(cityList.size() - 1).getY() - cityList.get(0).getY()), 2);
+		double distance = Math.sqrt(xDistance + yDistance);
 
 		for (int i = 1; i < cityList.size(); i++) {
-			double xDistance = Math.pow((cityList.get(i - 1).getX() - cityList.get(1).getX()), 2);
-			double yDistance = Math.pow((cityList.get(i - 1).getY() - cityList.get(1).getY()), 2);
-
+			xDistance = Math.pow((cityList.get(i - 1).getX() - cityList.get(1).getX()), 2);
+			yDistance = Math.pow((cityList.get(i - 1).getY() - cityList.get(1).getY()), 2);
 			distance += Math.sqrt(xDistance + yDistance);
 		}
 
