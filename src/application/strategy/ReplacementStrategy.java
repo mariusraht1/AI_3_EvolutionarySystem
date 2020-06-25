@@ -39,7 +39,7 @@ public enum ReplacementStrategy {
 	private TourList only_children(TourList childrenTourList) {
 		TourList tourList = childrenTourList;
 		Population.getInstance().sort(tourList);
-		
+
 		return selectBest(tourList);
 	}
 
@@ -47,22 +47,18 @@ public enum ReplacementStrategy {
 		TourList tourList = parentTourList;
 		tourList.addAll(childrenTourList);
 		Population.getInstance().sort(tourList);
-		
+
 		return selectBest(tourList);
 	}
-	
+
 	private TourList selectBest(TourList tourList) {
 		TourList result = new TourList();
-				
-		int i = 0;
-		while(i < Population.getInstance().getNumOfTours() && !tourList.isEmpty())
-		{
-			result.add(tourList.get(i));
-			tourList.remove(tourList.get(i));
-			
-			i++;
+
+		while (result.size() < Population.getInstance().getNumOfTours() && !tourList.isEmpty()) {
+			result.add(tourList.get(0));
+			tourList.remove(tourList.get(0));
 		}
-		
+
 		return result;
 	}
 

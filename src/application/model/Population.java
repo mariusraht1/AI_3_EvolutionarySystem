@@ -192,21 +192,22 @@ public class Population {
 		sort(this.tourList);
 	}
 
+	// OPT Reduce calling of sort
 	public void sort(TourList tourList) {
 		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
 
-		StringBuilder fitnessVector = new StringBuilder("Fitness: [");
-		for (Tour tour : tourList) {
-			if (tour.equals(tourList.get(tourList.size() - 1))) {
-				fitnessVector.append(tour.getFitness());
-			} else {
-				fitnessVector.append(tour.getFitness() + ", ");
-			}
-		}
-		Log.getInstance().add(fitnessVector.toString() + "]");
+//		StringBuilder fitnessVector = new StringBuilder("Fitness: [");
+//		for (Tour tour : tourList) {
+//			if (tour.equals(tourList.get(tourList.size() - 1))) {
+//				fitnessVector.append(tour.getFitness());
+//			} else {
+//				fitnessVector.append(tour.getFitness() + ", ");
+//			}
+//		}
+//		Log.getInstance().add(fitnessVector.toString() + "]");
 	}
 
-	// TODO Considering in related logic that 1st city has to be the last too
+	// INFO Considering in related logic that 1st city has to be the last too
 	// TODO Fitness: Consider max(-f(x)) as minimization function
 	// TODO Warn if there aren't enough tours to replace the previous generation,
 	// cause something went wrong
@@ -214,11 +215,12 @@ public class Population {
 		TourList nextGeneration = this.tourList;
 
 		for (int n = 1; n <= numOfSteps; n++) {
+			rateFitness(nextGeneration);
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);
+			rateFitness(childrenTourList);
 			nextGeneration = replace(parentTourList, childrenTourList);
-			rateFitness(nextGeneration);
 		}
 
 		Log.getInstance().add("Current Optimum: " + nextGeneration.get(0).getTotalDistance());
