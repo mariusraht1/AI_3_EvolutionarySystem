@@ -7,6 +7,7 @@ import application.Utilities;
 import application.model.CityList;
 import application.model.Population;
 import application.strategy.CrossoverStrategy;
+import application.strategy.MatingStrategy;
 import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
@@ -23,6 +24,8 @@ public class MainScene {
 	private TextField tf_numOfCities;
 	@FXML
 	private ComboBox<SelectionStrategy> cb_selection_strategy;
+	@FXML
+	private ComboBox<MatingStrategy> cb_mating_strategy;
 	@FXML
 	private ComboBox<CrossoverStrategy> cb_crossover_strategy;
 	@FXML
@@ -54,6 +57,8 @@ public class MainScene {
 
 		cb_selection_strategy.setItems(FXCollections.observableArrayList(SelectionStrategy.values()));
 		cb_selection_strategy.getSelectionModel().select(Population.getInstance().getSelectionStrategy());
+		cb_mating_strategy.setItems(FXCollections.observableArrayList(MatingStrategy.values()));
+		cb_mating_strategy.getSelectionModel().select(Population.getInstance().getMatingStrategy());
 		cb_crossover_strategy.setItems(FXCollections.observableArrayList(CrossoverStrategy.values()));
 		cb_crossover_strategy.getSelectionModel().select(Population.getInstance().getCrossoverStrategy());
 		cb_mutation_strategy.setItems(FXCollections.observableArrayList(MutationStrategy.values()));
@@ -83,6 +88,9 @@ public class MainScene {
 			SelectionStrategy selectedSelectionStrategy = cb_selection_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setSelectionStrategy(selectedSelectionStrategy);
 
+			MatingStrategy selectedMatingStrategy = cb_mating_strategy.getSelectionModel().getSelectedItem();
+			Population.getInstance().setMatingStrategy(selectedMatingStrategy);
+			
 			CrossoverStrategy selectedCrossoverStrategy = cb_crossover_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setCrossoverStrategy(selectedCrossoverStrategy);
 
