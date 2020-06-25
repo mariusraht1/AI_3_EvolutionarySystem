@@ -207,9 +207,10 @@ public class Population {
 //		Log.getInstance().add(fitnessVector.toString() + "]");
 	}
 
+	// NEW Increase logging
 	// INFO Considering in related logic that 1st city has to be the last too
-	// TODO Fitness: Consider max(-f(x)) as minimization function
-	// TODO Warn if there aren't enough tours to replace the previous generation,
+	// INFO Fitness: Consider max(-f(x)) as minimization function
+	// INFO Warn if there aren't enough tours to replace the previous generation,
 	// cause something went wrong
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		TourList nextGeneration = this.tourList;
