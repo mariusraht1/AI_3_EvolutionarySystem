@@ -1,6 +1,7 @@
 package application.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import application.Log;
 import application.Main;
@@ -176,6 +177,9 @@ public class Population {
 
 			this.tourList.set(i, new Tour("Tour " + String.valueOf(i + 1), cityListPerTour));
 		}
+		
+		rateFitness(this.tourList);
+		Collections.sort(this.tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
 	}
 
 	// TODO Considering in related logic that 1st city has to be the last too
@@ -186,11 +190,11 @@ public class Population {
 		TourList nextGeneration = this.tourList;
 		
 		for (int n = 1; n <= numOfSteps; n++) {
-			rateFitness(nextGeneration);
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);
 			nextGeneration = replace(parentTourList, childrenTourList);
+			rateFitness(nextGeneration);
 		}
 
 		Log.getInstance().add("Current Optimum:");
@@ -200,6 +204,8 @@ public class Population {
 
 		draw(canvas);
 
+		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+		
 		double min = getTourList().get(0).getTotalDistance();
 		double max = getTourList().get(getNumOfTours() - 1).getTotalDistance();
 
