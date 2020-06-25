@@ -1,6 +1,7 @@
 package application.strategy;
 
 import application.Utilities;
+import application.model.City;
 import application.model.CityList;
 import application.model.Population;
 import application.model.Tour;
@@ -24,8 +25,6 @@ public enum CrossoverStrategy {
 	}
 
 	public TourList execute(TourList tourList) {
-		// NEW Implement CrossoverStrategy execution
-
 		switch (this) {
 		case ONE_POINT:
 			tourList = one_point(tourList);
@@ -38,29 +37,55 @@ public enum CrossoverStrategy {
 	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
-		Tour firstParentTour = parentTourList.get(0); // TODO If odd number of tours choose firstParentTour for last entry
+		Tour firstParentTour = parentTourList.get(0);
+
+		int start = Utilities.getInstance().generateRandom(1, Population.getInstance().getNumOfCities() - 2);
+		int end = Population.getInstance().getNumOfCities() - 1;
 
 		while (!parentTourList.isEmpty()) {
-			Tour father = parentTourList.get(0);
-			Tour mother = parentTourList.get(1);
+			Tour fatherTour = parentTourList.get(0);
+			Tour motherTour = parentTourList.get(1);
 
-			int start = Utilities.getInstance().generateRandom(1, Population.getInstance().getNumOfCities() - 2);
-			int end = Population.getInstance().getNumOfCities() - 1;
-			
-			CityList child1 = new CityList();
-			CityList child2 = new CityList();
-			
-			for(int i = 0; i < start; i++) {
-				child1.add(father.getCityList().get(i));
-				child2.add(mother.getCityList().get(i));
+			if (parentTourList.size() == 1) {
+				fatherTour = firstParentTour;
+				motherTour = parentTourList.get(0);
 			}
-			
-			// NEW one_point: Determine location of father/mother city at i
-			for(int i = start; i < end; i++) {
-				
+
+			for (int i = 0; i < 2; i++) {
+				CityList parentPart1CityList = fatherTour.getCityList();
+				CityList parentPart2CityList = motherTour.getCityList();
+
+				if (i == 1) {
+					CityList tmpParentPartCityList = parentPart1CityList;
+					parentPart1CityList = parentPart2CityList;
+					parentPart2CityList = tmpParentPartCityList;
+				}
+
+				CityList childCityList = new CityList();
+				for (int j = 0; i < start; j++) {
+					childCityList.add(parentPart1CityList.get(j));
+				}
+
+				int j = start;
+				while (start < end) {
+					City nextCity = parentPart1CityList.get(j);
+					int indexOfNext = parentPart2CityList.indexOf(nextCity);
+
+					int k = 0;
+					for (k = j + 1; k < parentPart1CityList.size(); k++) {
+						if (parentPart2CityList.indexOf(parentPart1CityList.get(k)) < indexOfNext) {
+							nextCity = parentPart1CityList.get(k);
+							indexOfNext = parentPart2CityList.indexOf(parentPart1CityList.get(k));
+						}
+					}
+
+					childCityList.add(nextCity);
+					j++;
+				}
+
+				int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size();
+				childrenTourList.add(new Tour("Tour " + String.valueOf(tourNumber), childCityList));
 			}
-			
-			
 
 			parentTourList.remove(0);
 			parentTourList.remove(1);
