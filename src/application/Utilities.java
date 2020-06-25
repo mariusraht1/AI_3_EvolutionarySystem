@@ -76,8 +76,21 @@ public class Utilities {
 		try {
 			result = Integer.parseInt(s);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
+		return result;
+	}
+	
+	public double parseDouble(String s) {
+		double result = 0;
+		
+		try {
+			result = Double.parseDouble(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 

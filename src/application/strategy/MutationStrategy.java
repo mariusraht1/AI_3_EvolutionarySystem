@@ -39,7 +39,7 @@ public enum MutationStrategy {
 	}
 
 	private TourList inversion(TourList childrenTourList) {
-		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
+		TourList mutatedTourList = getPercentile(childrenTourList);
 
 		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
@@ -73,7 +73,7 @@ public enum MutationStrategy {
 	}
 
 	private TourList swapping(TourList childrenTourList) {
-		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
+		TourList mutatedTourList = getPercentile(childrenTourList);
 
 		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
@@ -87,6 +87,21 @@ public enum MutationStrategy {
 		return mutatedTourList;
 	}
 
+	private TourList getPercentile(TourList tourList) {
+		TourList tmptourList = Utilities.getInstance().deepCopy(tourList);
+		TourList mutabletourList = new TourList();
+
+		for (Tour tour : tmptourList) {
+			double p = Utilities.getInstance().getRandom(0.0, 1.0);
+
+			if (p <= Population.getInstance().getMutationProbability()) {
+				mutabletourList.add(tour);
+			}
+		}
+
+		return mutabletourList;
+	}
+	
 	private TourList addMissingTours(TourList childrenTourList, TourList mutatedTourList) {
 		for (Tour mutatedTour : mutatedTourList) {
 			for (int i = 0; i < childrenTourList.size(); i++) {

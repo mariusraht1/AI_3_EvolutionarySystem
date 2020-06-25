@@ -33,6 +33,8 @@ public class MainScene {
 	@FXML
 	private ComboBox<ReplacementStrategy> cb_replacement_strategy;
 	@FXML
+	private TextField tf_mutationProbability;
+	@FXML
 	private TextField tf_numOfSteps;
 	@FXML
 	private Label lbl_minTotalDistance;
@@ -53,8 +55,10 @@ public class MainScene {
 		Population.getInstance().initialise(cityList);
 
 		tf_numOfCities.setText(String.valueOf(Population.getInstance().getNumOfCities()));
+		tf_numOfCities.setPromptText(String.valueOf(Main.MinNumOfCities) + "-" + String.valueOf(Main.MaxNumOfCities));
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
-
+		tf_numOfSteps.setPromptText(String.valueOf(Main.MinNumOfSteps) + "-" + String.valueOf(Main.MaxNumOfSteps));
+		tf_mutationProbability.setText(String.valueOf(Main.DefaultMutationProbability));
 		cb_selection_strategy.setItems(FXCollections.observableArrayList(SelectionStrategy.values()));
 		cb_selection_strategy.getSelectionModel().select(Population.getInstance().getSelectionStrategy());
 		cb_mating_strategy.setItems(FXCollections.observableArrayList(MatingStrategy.values()));
@@ -77,13 +81,19 @@ public class MainScene {
 	@FXML
 	private void onAction_setOptions() {
 		int numOfCities = Utilities.getInstance().parseInt(tf_numOfCities.getText());
+		double mutationProbability = Utilities.getInstance().parseDouble(tf_mutationProbability.getText());
 
-		if (numOfCities < 2) {
-			tf_numOfCities.setText(String.valueOf(Main.DefaultNumOfCities));
+		if (numOfCities < Main.MinNumOfCities) {
+			tf_numOfCities.setText(String.valueOf(Main.MinNumOfCities));
 		} else if (numOfCities > Main.MaxNumOfCities) {
 			tf_numOfCities.setText(String.valueOf(Main.MaxNumOfCities));
+		} else if(mutationProbability < Main.MinMutationProbability) {
+			tf_mutationProbability.setText(String.valueOf(Main.MinMutationProbability));
+		} else if(mutationProbability > Main.MaxMutationProbability) {
+			tf_mutationProbability.setText(String.valueOf(Main.MaxMutationProbability));
 		} else {
 			Population.getInstance().setNumOfCities(numOfCities);
+			Population.getInstance().setMutationProbability(mutationProbability);
 
 			SelectionStrategy selectedSelectionStrategy = cb_selection_strategy.getSelectionModel().getSelectedItem();
 			Population.getInstance().setSelectionStrategy(selectedSelectionStrategy);

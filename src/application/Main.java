@@ -25,17 +25,22 @@ public class Main extends Application {
 		return primaryStage;
 	}
 
-	public static int MaxNumOfCities = 50;
-	public static int DefaultNumOfCities = 5;
-	public static int DefaultNumOfTours = 100;
-	public static int MaxNumOfSteps = 500;
-	public static int DefaultNumOfSteps = 1;
+	public final static int MinNumOfCities = 3;
+	public final static int MaxNumOfCities = 50;
+	public final static int DefaultNumOfCities = 5;
+	public final static int DefaultNumOfTours = 100;
+	public final static int MinNumOfSteps = 1;
+	public final static int MaxNumOfSteps = 500;
+	public final static int DefaultNumOfSteps = 1;
+	public final static double MinMutationProbability = 0.00;
+	public final static double MaxMutationProbability = 1.00;
+	public final static double DefaultMutationProbability = 0.01;
 
-	public static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
-	public static MatingStrategy DefaultMatingStrategy = MatingStrategy.NEXT_2;
-	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.ONE_POINT;
-	public static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWAPPING;
-	public static ReplacementStrategy DefaultReplacementStrategy = ReplacementStrategy.ONLY_CHILDREN;
+	public final static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
+	public final static MatingStrategy DefaultMatingStrategy = MatingStrategy.NEXT_2;
+	public final static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.ONE_POINT;
+	public final static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWAPPING;
+	public final static ReplacementStrategy DefaultReplacementStrategy = ReplacementStrategy.ONLY_CHILDREN;
 
 	@Override
 	public void start(Stage primaryStage) {

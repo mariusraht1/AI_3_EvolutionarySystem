@@ -84,6 +84,16 @@ public class Population {
 		this.numOfTours = numOfTours;
 	}
 
+	private double mutationProbability;
+	
+	public double getMutationProbability() {
+		return mutationProbability;
+	}
+
+	public void setMutationProbability(double mutationProbability) {
+		this.mutationProbability = mutationProbability;
+	}
+
 	private SelectionStrategy selectionStrategy;
 
 	public SelectionStrategy getSelectionStrategy() {
@@ -262,21 +272,6 @@ public class Population {
 		for (Tour tour : this.tourList) {
 			tour.draw(gc);
 		}
-	}
-
-	public TourList getPercentile(TourList tourList) {
-		TourList tmptourList = Utilities.getInstance().deepCopy(tourList);
-		TourList mutabletourList = new TourList();
-
-		for (Tour tour : tmptourList) {
-			double p = Utilities.getInstance().getRandom(0, 1);
-
-			if (p <= 0.01) {
-				mutabletourList.add(tour);
-			}
-		}
-
-		return mutabletourList;
 	}
 
 	public double getCumulatedFitness(TourList tourList) {
