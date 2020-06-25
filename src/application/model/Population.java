@@ -1,12 +1,12 @@
 package application.model;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import application.Log;
 import application.Main;
 import application.Utilities;
 import application.strategy.CrossoverStrategy;
+import application.strategy.MatingStrategy;
 import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
@@ -70,14 +70,16 @@ public class Population {
 		int numOfTours = 1;
 		
 		for(int i = 2; i < this.numOfCities; i++) {
-			numOfTours *= i / 2;
-			
-			if(numOfTours > Main.DefaultNumOfTours) {
-				numOfTours = Main.DefaultNumOfTours;
-				break;
-			}
+			numOfTours *= i;
 		}
 		
+		numOfTours /= 2;
+		
+		if(numOfTours > Main.DefaultNumOfTours) {
+			numOfTours = Main.DefaultNumOfTours;
+		}
+		
+		Log.getInstance().add("Setze Touranzahl auf " + String.valueOf(numOfTours));
 		this.numOfTours = numOfTours;
 	}
 
@@ -89,6 +91,16 @@ public class Population {
 
 	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
 		this.selectionStrategy = selectionStrategy;
+	}
+	
+	private MatingStrategy matingStrategy;
+	
+	public MatingStrategy getMatingStrategy() {
+		return matingStrategy;
+	}
+
+	public void setMatingStrategy(MatingStrategy matingStrategy) {
+		this.matingStrategy = matingStrategy;
 	}
 
 	private CrossoverStrategy crossoverStrategy;
@@ -127,11 +139,9 @@ public class Population {
 
 	public void reset() {
 		this.numOfCities = Main.DefaultNumOfCities;
-		setSuggestedNumOfTours();
 		
-		this.tourList = new TourList(Arrays.asList(new Tour[numOfTours]));
-
 		this.selectionStrategy = Main.DefaultSelectionStrategy;
+		this.matingStrategy = Main.DefaultMatingStrategy;
 		this.crossoverStrategy = Main.DefaultCrossoverStrategy;
 		this.mutationStrategy = Main.DefaultMutationStrategy;
 		this.replacementStrategy = Main.DefaultReplacementStrategy;		
@@ -143,7 +153,6 @@ public class Population {
 		for (int i = 1; i <= numOfCities; i++) {
 			int x = Utilities.getInstance().generateRandom(0, (int) canvas.getWidth());
 			int y = Utilities.getInstance().generateRandom(0, (int) canvas.getHeight());
-
 			cityList.add(new City("Stadt " + i, x, y));
 		}
 
@@ -151,6 +160,7 @@ public class Population {
 	}
 
 	public void initialise(CityList cityList) {
+		setSuggestedNumOfTours();
 		this.tourList = new TourList(Arrays.asList(new Tour[numOfTours]));
 		this.cityList = cityList;
 
@@ -201,20 +211,22 @@ public class Population {
 		for (Tour tour : tourList) {
 			tour.setFitness(tour.getTotalDistance());
 		}
-
-		Collections.sort(tourList, (t1, t2) -> Double.compare(t1.getTotalDistance(), t2.getTotalDistance()));
 	}
 
-	public TourList selection(TourList tourList) {
-		return selectionStrategy.execute(tourList);
+	public TourList selection(TourList nextGenerationTourList) {
+		return selectionStrategy.execute(nextGenerationTourList);
 	}
 
-	public TourList crossover(TourList tourList) {
-		return crossoverStrategy.execute(tourList);
+	public TourList mate(TourList parentTourList, Tour currentTour) {
+		return matingStrategy.execute(parentTourList, currentTour);
+	}
+	
+	public TourList crossover(TourList parentTourList) {
+		return crossoverStrategy.execute(parentTourList);
 	}
 
-	public TourList mutate(TourList tourList) {
-		return mutationStrategy.execute(tourList);
+	public TourList mutate(TourList childrenTourList) {
+		return mutationStrategy.execute(childrenTourList);
 	}
 
 	public TourList replace(TourList parentTourList, TourList childrenTourList) {
@@ -258,6 +270,7 @@ public class Population {
 	}
 
 	public int getNumOfParents() {
+		// Each parent pair gets 2 children
 		return Population.getInstance().getNumOfTours() / 2;
 	}
 }

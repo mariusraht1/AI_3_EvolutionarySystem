@@ -120,12 +120,12 @@ public enum SelectionStrategy {
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
-		double cumulatedFitness = Population.getInstance().getCumulatedFitness(tmpTourList);
-
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			int c1 = Utilities.getInstance().generateRandom(0, tmpTourList.size() - 1);
 			int c2 = Utilities.getInstance().generateRandom(0, tmpTourList.size() - 1);
 
+			double cumulatedFitness = tmpTourList.get(c1).getFitness() + tmpTourList.get(c2).getFitness();
+			
 			double p1 = 1 - (tmpTourList.get(c1).getFitness() / cumulatedFitness);
 			double p2 = 1 - (tmpTourList.get(c2).getFitness() / cumulatedFitness);
 
@@ -137,11 +137,9 @@ public enum SelectionStrategy {
 			}
 
 			int tourIndex = c1;
-			double cumulatedProbability = max + min;
-			double chanceToWin = max / cumulatedProbability;
 			double random = Utilities.getInstance().getRandom(0, 1);
 
-			if (random <= chanceToWin && max == p2) {
+			if (random <= max && max == p2) {
 				tourIndex = c2;
 			} else if (min == p2) {
 				tourIndex = c2;

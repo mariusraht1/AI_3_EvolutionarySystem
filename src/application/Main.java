@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import application.strategy.CrossoverStrategy;
+import application.strategy.MatingStrategy;
 import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
  * Evolutionary System for Traveling Salesman Problem
  * 
  * @author Marius Raht
- * @version 17.06.2020-001
+ * @version 25.06.2020-001
  */
 public class Main extends Application {
 	private static Stage primaryStage;
@@ -31,6 +32,7 @@ public class Main extends Application {
 	public static int DefaultNumOfSteps = 1;
 
 	public static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
+	public static MatingStrategy DefaultMatingStrategy = MatingStrategy.NEXT_2;
 	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.ONE_POINT;
 	public static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWAPPING;
 	public static ReplacementStrategy DefaultReplacementStrategy = ReplacementStrategy.ONLY_CHILDREN;

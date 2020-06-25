@@ -37,58 +37,56 @@ public enum CrossoverStrategy {
 	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
-		Tour firstParentTour = parentTourList.get(0);
 
 		int start = Utilities.getInstance().generateRandom(1, Population.getInstance().getNumOfCities() - 2);
 		int end = Population.getInstance().getNumOfCities() - 1;
 
-		while (!parentTourList.isEmpty()) {
-			Tour fatherTour = parentTourList.get(0);
-			Tour motherTour = parentTourList.get(1);
+		for (Tour parentTour : parentTourList) {
+			TourList matingTourList = Population.getInstance().mate(parentTourList, parentTour);
 
-			if (parentTourList.size() == 1) {
-				fatherTour = firstParentTour;
-				motherTour = parentTourList.get(0);
-			}
+			while (!matingTourList.isEmpty()) {
+				Tour fatherTour = matingTourList.get(0);
+				Tour motherTour = matingTourList.get(1);
 
-			for (int i = 0; i < 2; i++) {
-				CityList parentPart1CityList = fatherTour.getCityList();
-				CityList parentPart2CityList = motherTour.getCityList();
+				for (int i = 0; i < 2; i++) {
+					CityList parentPart1CityList = fatherTour.getCityList();
+					CityList parentPart2CityList = motherTour.getCityList();
 
-				if (i == 1) {
-					CityList tmpParentPartCityList = parentPart1CityList;
-					parentPart1CityList = parentPart2CityList;
-					parentPart2CityList = tmpParentPartCityList;
-				}
-
-				CityList childCityList = new CityList();
-				for (int j = 0; i < start; j++) {
-					childCityList.add(parentPart1CityList.get(j));
-				}
-
-				int j = start;
-				while (start < end) {
-					City nextCity = parentPart1CityList.get(j);
-					int indexOfNext = parentPart2CityList.indexOf(nextCity);
-
-					int k = 0;
-					for (k = j + 1; k < parentPart1CityList.size(); k++) {
-						if (parentPart2CityList.indexOf(parentPart1CityList.get(k)) < indexOfNext) {
-							nextCity = parentPart1CityList.get(k);
-							indexOfNext = parentPart2CityList.indexOf(parentPart1CityList.get(k));
-						}
+					if (i == 1) {
+						CityList tmpParentPartCityList = parentPart1CityList;
+						parentPart1CityList = parentPart2CityList;
+						parentPart2CityList = tmpParentPartCityList;
 					}
 
-					childCityList.add(nextCity);
-					j++;
+					CityList childCityList = new CityList();
+					for (int j = 0; i < start; j++) {
+						childCityList.add(parentPart1CityList.get(j));
+					}
+
+					int j = start;
+					while (start < end) {
+						City nextCity = parentPart1CityList.get(j);
+						int indexOfNext = parentPart2CityList.indexOf(nextCity);
+
+						int k = 0;
+						for (k = j + 1; k < parentPart1CityList.size(); k++) {
+							if (parentPart2CityList.indexOf(parentPart1CityList.get(k)) < indexOfNext) {
+								nextCity = parentPart1CityList.get(k);
+								indexOfNext = parentPart2CityList.indexOf(parentPart1CityList.get(k));
+							}
+						}
+
+						childCityList.add(nextCity);
+						j++;
+					}
+
+					int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size();
+					childrenTourList.add(new Tour("Tour " + String.valueOf(tourNumber), childCityList));
 				}
 
-				int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size();
-				childrenTourList.add(new Tour("Tour " + String.valueOf(tourNumber), childCityList));
+				matingTourList.remove(0);
+				matingTourList.remove(1);
 			}
-
-			parentTourList.remove(0);
-			parentTourList.remove(1);
 		}
 
 		return childrenTourList;
