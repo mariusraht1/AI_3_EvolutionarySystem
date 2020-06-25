@@ -23,23 +23,25 @@ public enum MutationStrategy {
 		setName(name);
 	}
 
-	public TourList execute(TourList tourList) {
+	public TourList execute(TourList childrenTourList) {
+		TourList mutatedTourList = new TourList();
+
 		switch (this) {
 		case INVERSION:
-			tourList = inversion(tourList);
+			mutatedTourList = inversion(childrenTourList);
 			break;
 		case SWAPPING:
-			tourList = swapping(tourList);
+			mutatedTourList = swapping(childrenTourList);
 			break;
 		}
 
-		return tourList;
+		return addMissingTours(childrenTourList, mutatedTourList);
 	}
 
-	private TourList inversion(TourList tourList) {
-		TourList result = Population.getInstance().getPercentile(tourList);
+	private TourList inversion(TourList childrenTourList) {
+		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
 
-		for (Tour tour : result) {
+		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
 			int r2 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
 
@@ -67,13 +69,13 @@ public enum MutationStrategy {
 			}
 		}
 
-		return result;
+		return mutatedTourList;
 	}
 
-	private TourList swapping(TourList tourList) {
-		TourList result = Population.getInstance().getPercentile(tourList);
+	private TourList swapping(TourList childrenTourList) {
+		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
 
-		for (Tour tour : result) {
+		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
 			int r2 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
 
@@ -82,7 +84,20 @@ public enum MutationStrategy {
 			tour.getCityList().set(r2, tmpCity);
 		}
 
-		return result;
+		return mutatedTourList;
+	}
+
+	private TourList addMissingTours(TourList childrenTourList, TourList mutatedTourList) {
+		for (Tour mutatedTour : mutatedTourList) {
+			for (int i = 0; i < childrenTourList.size(); i++) {
+				if (mutatedTour.getName().equals(childrenTourList.get(i).getName())) {
+					childrenTourList.set(i, mutatedTour);
+					break;
+				}
+			}
+		}
+
+		return childrenTourList;
 	}
 
 	@Override

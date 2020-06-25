@@ -66,20 +66,20 @@ public class Population {
 	public void setNumOfTours(int numOfTours) {
 		this.numOfTours = numOfTours;
 	}
-	
+
 	public void setSuggestedNumOfTours() {
 		int numOfTours = 1;
-		
-		for(int i = 2; i < this.numOfCities; i++) {
+
+		for (int i = 2; i < this.numOfCities; i++) {
 			numOfTours *= i;
 		}
-		
+
 		numOfTours /= 2;
-		
-		if(numOfTours > Main.DefaultNumOfTours) {
+
+		if (numOfTours > Main.DefaultNumOfTours) {
 			numOfTours = Main.DefaultNumOfTours;
 		}
-		
+
 		Log.getInstance().add("Setze Touranzahl auf " + String.valueOf(numOfTours));
 		this.numOfTours = numOfTours;
 	}
@@ -93,9 +93,9 @@ public class Population {
 	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
 		this.selectionStrategy = selectionStrategy;
 	}
-	
+
 	private MatingStrategy matingStrategy;
-	
+
 	public MatingStrategy getMatingStrategy() {
 		return matingStrategy;
 	}
@@ -140,12 +140,12 @@ public class Population {
 
 	public void reset() {
 		this.numOfCities = Main.DefaultNumOfCities;
-		
+
 		this.selectionStrategy = Main.DefaultSelectionStrategy;
 		this.matingStrategy = Main.DefaultMatingStrategy;
 		this.crossoverStrategy = Main.DefaultCrossoverStrategy;
 		this.mutationStrategy = Main.DefaultMutationStrategy;
-		this.replacementStrategy = Main.DefaultReplacementStrategy;		
+		this.replacementStrategy = Main.DefaultReplacementStrategy;
 	}
 
 	public CityList createCities(Canvas canvas) {
@@ -162,10 +162,10 @@ public class Population {
 
 	public void initialise(CityList cityList) {
 		setSuggestedNumOfTours();
-		this.tourList = new TourList(Arrays.asList(new Tour[numOfTours]));
+		this.tourList = new TourList(Arrays.asList(new Tour[this.numOfTours]));
 		this.cityList = cityList;
 
-		for (int i = 0; i < numOfTours; i++) {
+		for (int i = 0; i < this.numOfTours; i++) {
 			CityList cityListPerTour = new CityList(Arrays.asList(new City[numOfCities]));
 			CityList tmpcityList = Utilities.getInstance().deepCopy(cityList);
 
@@ -177,9 +177,23 @@ public class Population {
 
 			this.tourList.set(i, new Tour("Tour " + String.valueOf(i + 1), cityListPerTour));
 		}
-		
+
 		rateFitness(this.tourList);
-		Collections.sort(this.tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+		sort(this.tourList);
+	}
+
+	public void sort(TourList tourList) {
+		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+
+		StringBuilder fitnessVector = new StringBuilder("Fitness: [");
+		for (Tour tour : tourList) {
+			if (tour.equals(tourList.get(tourList.size() - 1))) {
+				fitnessVector.append(tour.getFitness());
+			} else {
+				fitnessVector.append(tour.getFitness() + ", ");
+			}
+		}
+		Log.getInstance().add(fitnessVector.toString() + "]");
 	}
 
 	// TODO Considering in related logic that 1st city has to be the last too
@@ -188,7 +202,7 @@ public class Population {
 	// cause something went wrong
 	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
 		TourList nextGeneration = this.tourList;
-		
+
 		for (int n = 1; n <= numOfSteps; n++) {
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
@@ -197,14 +211,14 @@ public class Population {
 			rateFitness(nextGeneration);
 		}
 
-		Log.getInstance().add("Current Optimum:");
+		Log.getInstance().add("Current Optimum: " + nextGeneration.get(0).getTotalDistance());
 		for (int i = 0; i < getTourList().get(0).getCityList().size(); i++) {
 			Log.getInstance().add(String.valueOf(i + 1) + ") " + getTourList().get(0).getCityList().get(i).getName());
 		}
 
 		draw(canvas);
 
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+		Population.getInstance().sort(this.tourList);
 		
 		double min = getTourList().get(0).getTotalDistance();
 		double max = getTourList().get(getNumOfTours() - 1).getTotalDistance();
@@ -226,7 +240,7 @@ public class Population {
 	public TourList mate(TourList parentTourList, Tour currentTour) {
 		return matingStrategy.execute(parentTourList, currentTour);
 	}
-	
+
 	public TourList crossover(TourList parentTourList) {
 		return crossoverStrategy.execute(parentTourList);
 	}

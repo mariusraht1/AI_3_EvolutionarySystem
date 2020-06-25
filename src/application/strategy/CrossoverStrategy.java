@@ -25,6 +25,8 @@ public enum CrossoverStrategy {
 	}
 
 	public TourList execute(TourList tourList) {
+		Population.getInstance().sort(tourList);
+		
 		switch (this) {
 		case ONE_POINT:
 			tourList = one_point(tourList);
@@ -45,8 +47,8 @@ public enum CrossoverStrategy {
 			TourList matingTourList = Population.getInstance().mate(parentTourList, parentTour);
 
 			while (!matingTourList.isEmpty()) {
-				Tour fatherTour = matingTourList.get(0);
-				Tour motherTour = matingTourList.get(1);
+				Tour fatherTour = parentTour;
+				Tour motherTour = matingTourList.get(0);
 
 				for (int i = 0; i < 2; i++) {
 					CityList parentPart1CityList = fatherTour.getCityList();
@@ -59,12 +61,12 @@ public enum CrossoverStrategy {
 					}
 
 					CityList childCityList = new CityList();
-					for (int j = 0; i < start; j++) {
+					for (int j = 0; j < start; j++) {
 						childCityList.add(parentPart1CityList.get(j));
 					}
 
 					int j = start;
-					while (start < end) {
+					while (j < end) {
 						City nextCity = parentPart1CityList.get(j);
 						int indexOfNext = parentPart2CityList.indexOf(nextCity);
 
@@ -80,12 +82,13 @@ public enum CrossoverStrategy {
 						j++;
 					}
 
-					int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size();
+					childCityList.add(parentPart1CityList.get(end));
+					
+					int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size() + 1;
 					childrenTourList.add(new Tour("Tour " + String.valueOf(tourNumber), childCityList));
 				}
 
 				matingTourList.remove(0);
-				matingTourList.remove(1);
 			}
 		}
 

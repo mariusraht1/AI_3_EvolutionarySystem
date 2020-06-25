@@ -1,7 +1,5 @@
 package application.strategy;
 
-import java.util.Collections;
-
 import application.model.Population;
 import application.model.TourList;
 
@@ -40,22 +38,22 @@ public enum ReplacementStrategy {
 
 	private TourList only_children(TourList childrenTourList) {
 		TourList tourList = childrenTourList;
-
+		Population.getInstance().sort(tourList);
+		
 		return selectBest(tourList);
 	}
 
 	private TourList parents_and_children(TourList parentTourList, TourList childrenTourList) {
 		TourList tourList = parentTourList;
-		parentTourList.addAll(childrenTourList);
-
+		tourList.addAll(childrenTourList);
+		Population.getInstance().sort(tourList);
+		
 		return selectBest(tourList);
 	}
 	
 	private TourList selectBest(TourList tourList) {
 		TourList result = new TourList();
-		
-		Collections.sort(tourList, (t1, t2) -> Double.compare(t1.getFitness(), t2.getFitness()));
-		
+				
 		int i = 0;
 		while(i < Population.getInstance().getNumOfTours() && !tourList.isEmpty())
 		{

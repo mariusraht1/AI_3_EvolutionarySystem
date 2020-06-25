@@ -1,7 +1,5 @@
 package application.strategy;
 
-import java.util.Collections;
-
 import application.Utilities;
 import application.model.Population;
 import application.model.Tour;
@@ -26,6 +24,8 @@ public enum SelectionStrategy {
 	}
 
 	public TourList execute(TourList tourList) {
+		Population.getInstance().sort(tourList);
+		
 		switch (this) {
 		case BEST:
 			tourList = best(tourList);
@@ -41,12 +41,11 @@ public enum SelectionStrategy {
 			break;
 		}
 
+		Population.getInstance().sort(tourList);
 		return tourList;
 	}
 
 	private TourList best(TourList tourList) {
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-
 		TourList result = new TourList();
 
 		for (int i = 0; i < Population.getInstance().getNumOfParents(); i++) {
@@ -57,8 +56,6 @@ public enum SelectionStrategy {
 	}
 
 	private TourList fitness(TourList tourList) {
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
@@ -83,8 +80,6 @@ public enum SelectionStrategy {
 	}
 
 	private TourList rank(TourList tourList) {
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
@@ -115,8 +110,6 @@ public enum SelectionStrategy {
 	}
 
 	private TourList tournament(TourList tourList) {
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 

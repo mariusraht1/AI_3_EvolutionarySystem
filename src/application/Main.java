@@ -26,7 +26,7 @@ public class Main extends Application {
 	}
 
 	public static int MaxNumOfCities = 50;
-	public static int DefaultNumOfCities = 15;
+	public static int DefaultNumOfCities = 5;
 	public static int DefaultNumOfTours = 100;
 	public static int MaxNumOfSteps = 500;
 	public static int DefaultNumOfSteps = 1;
