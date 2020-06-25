@@ -31,7 +31,7 @@ public class Main extends Application {
 	public static int DefaultNumOfSteps = 1;
 
 	public static SelectionStrategy DefaultSelectionStrategy = SelectionStrategy.TOURNAMENT;
-	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.PLACEHOLDER;
+	public static CrossoverStrategy DefaultCrossoverStrategy = CrossoverStrategy.ONE_POINT;
 	public static MutationStrategy DefaultMutationStrategy = MutationStrategy.SWAPPING;
 	public static ReplacementStrategy DefaultReplacementStrategy = ReplacementStrategy.ONLY_CHILDREN;
 
