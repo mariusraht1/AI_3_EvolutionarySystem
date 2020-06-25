@@ -114,8 +114,8 @@ public enum SelectionStrategy {
 		TourList result = new TourList();
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			int c1 = Utilities.getInstance().generateRandom(0, tmpTourList.size() - 1);
-			int c2 = Utilities.getInstance().generateRandom(0, tmpTourList.size() - 1);
+			int c1 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
+			int c2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
 
 			double cumulatedFitness = tmpTourList.get(c1).getFitness() + tmpTourList.get(c2).getFitness();
 			

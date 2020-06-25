@@ -152,8 +152,8 @@ public class Population {
 		CityList cityList = new CityList();
 
 		for (int i = 1; i <= numOfCities; i++) {
-			int x = Utilities.getInstance().generateRandom(0, (int) canvas.getWidth());
-			int y = Utilities.getInstance().generateRandom(0, (int) canvas.getHeight());
+			int x = Utilities.getInstance().getRandom(0, (int) canvas.getWidth());
+			int y = Utilities.getInstance().getRandom(0, (int) canvas.getHeight());
 			cityList.add(new City("Stadt " + i, x, y));
 		}
 
@@ -170,7 +170,7 @@ public class Population {
 			CityList tmpcityList = Utilities.getInstance().deepCopy(cityList);
 
 			for (int j = 0; j < getNumOfCities(); j++) {
-				int random = Utilities.getInstance().generateRandom(0, tmpcityList.size() - 1);
+				int random = Utilities.getInstance().getRandom(0, tmpcityList.size() - 1);
 				cityListPerTour.set(j, tmpcityList.get(random));
 				tmpcityList.remove(random);
 			}
@@ -219,7 +219,7 @@ public class Population {
 		draw(canvas);
 
 		Population.getInstance().sort(this.tourList);
-		
+
 		double min = getTourList().get(0).getTotalDistance();
 		double max = getTourList().get(getNumOfTours() - 1).getTotalDistance();
 
@@ -267,13 +267,13 @@ public class Population {
 	public TourList getPercentile(TourList tourList) {
 		TourList tmptourList = Utilities.getInstance().deepCopy(tourList);
 		TourList mutabletourList = new TourList();
-		int n = (int) (Population.getInstance().getNumOfTours() * 0.01);
 
-		for (int i = 0; i < n; i++) {
-			int random = Utilities.getInstance().generateRandom(0, tmptourList.size() - 1);
+		for (Tour tour : tmptourList) {
+			double p = Utilities.getInstance().getRandom(0, 1);
 
-			mutabletourList.add(tmptourList.get(random));
-			tmptourList.remove(random);
+			if (p <= 0.01) {
+				mutabletourList.add(tour);
+			}
 		}
 
 		return mutabletourList;

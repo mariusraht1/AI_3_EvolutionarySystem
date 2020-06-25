@@ -26,7 +26,7 @@ public class Utilities {
 	protected Utilities() {
 	}
 
-	public int generateRandom(int min, int max) {
+	public int getRandom(int min, int max) {
 		return random.nextInt((max - min) + 1) + min;
 	}
 

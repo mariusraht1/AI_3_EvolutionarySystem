@@ -40,7 +40,7 @@ public enum CrossoverStrategy {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
 
-		int start = Utilities.getInstance().generateRandom(1, Population.getInstance().getNumOfCities() - 2);
+		int start = Utilities.getInstance().getRandom(1, Population.getInstance().getNumOfCities() - 2);
 		int end = Population.getInstance().getNumOfCities() - 1;
 
 		for (Tour parentTour : parentTourList) {

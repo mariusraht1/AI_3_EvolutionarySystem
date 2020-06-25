@@ -42,8 +42,8 @@ public enum MutationStrategy {
 		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
 
 		for (Tour tour : mutatedTourList) {
-			int r1 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
-			int r2 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
+			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
 
 			// Define termination condition
 			int stop = 0; // r2 > r1
@@ -76,8 +76,8 @@ public enum MutationStrategy {
 		TourList mutatedTourList = Population.getInstance().getPercentile(childrenTourList);
 
 		for (Tour tour : mutatedTourList) {
-			int r1 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
-			int r2 = Utilities.getInstance().generateRandom(0, tour.getCityList().size() - 1);
+			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
 
 			City tmpCity = new City(tour.getCityList().get(r1));
 			tour.getCityList().set(r1, tour.getCityList().get(r2));
