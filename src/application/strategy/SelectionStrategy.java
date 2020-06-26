@@ -65,7 +65,7 @@ public enum SelectionStrategy {
 		double cumulatedFitness = Population.getInstance().getCumulatedFitness(tmpTourList);
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			double random = Utilities.getInstance().getRandom(0, 1);
+			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
 			for (Tour tour : tmpTourList) {
 				// fitness => shortest distance is better
@@ -92,7 +92,7 @@ public enum SelectionStrategy {
 		}
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			double random = Utilities.getInstance().getRandom(0, 1);
+			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
 			for (int j = 0; j < tmpTourList.size(); j++) {
 				Tour tour = tmpTourList.get(j);
@@ -133,7 +133,7 @@ public enum SelectionStrategy {
 			}
 
 			int tourIndex = c1;
-			double random = Utilities.getInstance().getRandom(0, 1);
+			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
 			if (random <= max && max == p2) {
 				tourIndex = c2;
