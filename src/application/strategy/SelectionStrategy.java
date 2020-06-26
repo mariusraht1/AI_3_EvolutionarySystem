@@ -44,7 +44,7 @@ public enum SelectionStrategy {
 
 		Population.getInstance().sort(tourList);
 		Log.getInstance().logCities(tourList);
-		
+
 		return tourList;
 	}
 
@@ -117,28 +117,18 @@ public enum SelectionStrategy {
 		TourList result = new TourList();
 
 		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			int c1 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
-			int c2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
+			int t1 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
+			int t2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
 
-			double cumulatedFitness = tmpTourList.get(c1).getFitness() + tmpTourList.get(c2).getFitness();
-
-			double p1 = 1 - (tmpTourList.get(c1).getFitness() / cumulatedFitness);
-			double p2 = 1 - (tmpTourList.get(c2).getFitness() / cumulatedFitness);
-
-			double max = p1;
-			double min = p2;
-			if (p2 > max) {
-				max = p2;
-				min = p1;
-			}
-
-			int tourIndex = c1;
 			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
-			if (random <= max && max == p2) {
-				tourIndex = c2;
-			} else if (min == p2) {
-				tourIndex = c2;
+			double cumulatedFitness = tmpTourList.get(t1).getFitness() + tmpTourList.get(t2).getFitness();
+			double p1 = tmpTourList.get(t1).getFitness() / cumulatedFitness;
+			double p2 = tmpTourList.get(t2).getFitness() / cumulatedFitness;
+
+			int tourIndex = t1;
+			if ((p2 > p1 && random >= p2) || (p2 < p1 && random <= p2)) {
+				tourIndex = t2;
 			}
 
 			result.add(tmpTourList.get(tourIndex));

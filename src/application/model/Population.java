@@ -3,6 +3,7 @@ package application.model;
 import java.util.Arrays;
 import java.util.Collections;
 
+import application.History;
 import application.Log;
 import application.Main;
 import application.Utilities;
@@ -25,6 +26,16 @@ public class Population {
 		}
 
 		return instance;
+	}
+	
+	private int numOfRounds;
+
+	public int getNumOfRounds() {
+		return numOfRounds;
+	}
+
+	public void setNumOfRounds(int numOfRounds) {
+		this.numOfRounds = numOfRounds;
 	}
 
 	private TourList tourList;
@@ -164,7 +175,7 @@ public class Population {
 		for (int i = 1; i <= numOfCities; i++) {
 			int x = Utilities.getInstance().getRandom(0, (int) canvas.getWidth());
 			int y = Utilities.getInstance().getRandom(0, (int) canvas.getHeight());
-			cityList.add(new City("Stadt " + i, x, y));
+			cityList.add(new City(i, x, y));
 		}
 
 		return cityList;
@@ -201,7 +212,7 @@ public class Population {
 	// INFO Fitness: Consider max(-f(x)) as minimization function
 	// INFO Warn if there aren't enough tours to replace the previous generation,
 	// cause something went wrong
-	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance) {
+	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance, Label lbl_round) {
 		TourList nextGeneration = this.tourList;
 
 		for (int n = 1; n <= numOfSteps; n++) {
@@ -211,6 +222,9 @@ public class Population {
 			childrenTourList = mutate(childrenTourList);
 			rateFitness(childrenTourList);
 			nextGeneration = replace(parentTourList, childrenTourList);
+			
+			History.getInstance().add(this.numOfRounds, nextGeneration);
+			this.numOfRounds++;
 		}
 
 		double currentOptimum = nextGeneration.get(0).getTotalDistance();
@@ -230,6 +244,7 @@ public class Population {
 
 		lbl_minTotalDistance.setText(String.format("%,.2f", min));
 		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
+		lbl_round.setText("Round " + this.numOfRounds);
 	}
 
 	public void rateFitness(TourList tourList) {

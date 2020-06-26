@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities.OSType;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
+import application.model.City;
+import application.model.Tour;
+import application.model.TourList;
 
 public class History {
 	private static History instance;
@@ -23,7 +24,7 @@ public class History {
 		return instance;
 	}
 
-	private List<String[]> development = new ArrayList<String[]>();
+	private List<String[]> evolution = new ArrayList<String[]>();
 
 	private File file = new File("history.csv");
 
@@ -43,28 +44,33 @@ public class History {
 	};
 
 	private void initHeader() {
-//		development.add(new String[] { "Round", "Product", "Stock", "Demand", "Demand Rate", "Fuzz. Demand",
-//				"New Stock", "New Stock Rate", "Fuzz. New Stock", "Fuzz. Order Amount", "Order Amount Factor",
-//				"Order Amount" });
+		evolution.add(new String[] { "Round", "Tour", "Fitness", "Order" });
 	}
 
-	public void clear(ArrayList<XYChart<String, Integer>> charts, ArrayList<Series<String, Integer>> seriesList) {
-		development.clear();
+	public void clear() {
+		evolution.clear();
 		initHeader();
 	}
 
-	public void add() {
-
-//		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
-//				String.valueOf(demand), String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), String.valueOf(0),
-//				String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), FuzzyAmount.NOTHING.toString(),
-//				String.valueOf(0.00), String.valueOf(0) });
+	public void add(int round, TourList tourList) {
+		for (Tour tour : tourList) {
+			StringBuilder order = new StringBuilder("[");
+			for (City city : tour.getCityList()) {
+				if (city.equals(tour.getCityList().get(tour.getCityList().size() - 1))) {
+					order.append(city.getId());
+				} else {
+					order.append(city.getId() + ",");
+				}
+			}
+			order.append("]");
+			evolution.add(new String[] { String.valueOf(round), tour.getName(), String.valueOf(tour.getFitness()), order.toString() });
+		}
 	}
 
 	public void export() {
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
-			for (String[] x : development) {
+			for (String[] x : evolution) {
 				for (int i = 0; i < x.length; i++) {
 					stringBuilder.append(x[i]);
 					if (i < x.length - 1) {

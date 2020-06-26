@@ -7,6 +7,16 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Tour implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	private String name;
 
 	public String getName() {
@@ -38,6 +48,8 @@ public class Tour implements Serializable {
 	}
 
 	public Tour(int id, CityList cityList) {
+		this.id = id;
+
 		if (id < 10 && id > 0) {
 			this.name = "Tour 00" + id;
 		} else if (id < 100 && id > 0) {
@@ -45,16 +57,12 @@ public class Tour implements Serializable {
 		} else {
 			this.name = "Tour " + id;
 		}
-		
-		setCityList(cityList);
-	}
-	
-	public Tour(String name, CityList cityList) {
-		setName(name);
+
 		setCityList(cityList);
 	}
 
 	public Tour(Tour tour) {
+		this.id = tour.getId();
 		this.name = tour.getName();
 		this.cityList = Utilities.getInstance().deepCopy(tour.getCityList());
 	}

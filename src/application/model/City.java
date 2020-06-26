@@ -4,6 +4,17 @@ import java.io.Serializable;
 
 public class City implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	private String name;
 
 	public String getName() {
@@ -34,13 +45,23 @@ public class City implements Serializable {
 		this.y = y;
 	}
 
-	public City(String name, int x, int y) {
-		this.name = name;
+	public City(int id, int x, int y) {
+		this.id = id;
+
+		if (id < 10 && id > 0) {
+			this.name = "Stadt 00" + id;
+		} else if (id < 100 && id > 0) {
+			this.name = "Stadt 0" + id;
+		} else {
+			this.name = "Stadt " + id;
+		}
+
 		this.x = x;
 		this.y = y;
 	}
 
 	public City(City city) {
+		this.id = city.getId();
 		this.name = city.getName();
 		this.x = city.getX();
 		this.y = city.getY();

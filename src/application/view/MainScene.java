@@ -74,7 +74,10 @@ public class MainScene {
 				.setText(String.format("%,.2f", Population.getInstance().getTourList().get(0).getTotalDistance()));
 		lbl_maxTotalDistance.setText(String.format("%,.2f", Population.getInstance().getTourList()
 				.get(Population.getInstance().getNumOfTours() - 1).getTotalDistance()));
-
+		
+		Population.getInstance().setNumOfRounds(0);
+		lbl_round.setText("Round 0");
+		
 		Population.getInstance().draw(cv_tours);
 	}
 
@@ -125,7 +128,7 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Population.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance);
+				Population.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance, lbl_round);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
