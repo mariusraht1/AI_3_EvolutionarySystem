@@ -1,7 +1,12 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+import application.model.City;
+import application.model.Population;
+import application.model.Tour;
+import application.model.TourList;
 import javafx.scene.control.ListView;
 
 public class Log {
@@ -49,4 +54,43 @@ public class Log {
 		buffer.clear();
 		control.getItems().clear();
 	}
+
+	public void logCities(Tour tour) {
+		String fitness = String.format(Locale.ROOT, "%.2f", tour.getFitness());
+		StringBuilder tourString = new StringBuilder(tour.getName() + " (" + fitness + "): [");
+
+		for (City city : tour.getCityList()) {
+			if (city.equals(tour.getCityList().get(Population.getInstance().getNumOfCities() - 1))) {
+				tourString.append(city.getName());
+			} else {
+				tourString.append(city.getName() + ", ");
+			}
+		}
+
+		Log.getInstance().add(tourString.toString() + "]");
+	}
+
+	public void logCities(TourList tourList) {
+		for (Tour tour : tourList) {
+			logCities(tour);
+		}
+	}
+
+	public void logFitness(TourList tourList) {
+		StringBuilder fitnessVector = new StringBuilder("Fitness: [");
+		for (Tour tour : tourList) {
+			if (tour.equals(tourList.get(tourList.size() - 1))) {
+				fitnessVector.append(tour.getFitness());
+			} else {
+				fitnessVector.append(tour.getFitness() + ", ");
+			}
+		}
+		Log.getInstance().add(fitnessVector.toString() + "]");
+	}
+
+	public void logHeader(String processName) {
+		Log.getInstance().add("=== " + processName + " ===============================================");
+	}
+
+
 }

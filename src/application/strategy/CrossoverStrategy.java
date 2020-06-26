@@ -1,5 +1,6 @@
 package application.strategy;
 
+import application.Log;
 import application.Utilities;
 import application.model.City;
 import application.model.CityList;
@@ -25,67 +26,85 @@ public enum CrossoverStrategy {
 	}
 
 	public TourList execute(TourList tourList) {
-		Population.getInstance().sort(tourList);
-		
+		Log.getInstance().logHeader("Crossover");
+
 		switch (this) {
 		case ONE_POINT:
 			tourList = one_point(tourList);
 			break;
 		}
 
+		Log.getInstance().logCities(tourList);
+
 		return tourList;
 	}
 
+	// FIX One city can appear more than once in a cityList
 	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
 
-		int start = Utilities.getInstance().getRandom(1, Population.getInstance().getNumOfCities() - 2);
-		int end = Population.getInstance().getNumOfCities() - 1;
-
 		for (Tour parentTour : parentTourList) {
+			int start = Utilities.getInstance().getRandom(0, Population.getInstance().getNumOfCities() - 2);
+			int end = Population.getInstance().getNumOfCities() - 1;
+			Log.getInstance().add("Crossover: From " + start + " to " + end);
+
 			TourList matingTourList = Population.getInstance().mate(parentTourList, parentTour);
 
 			while (!matingTourList.isEmpty()) {
 				Tour fatherTour = parentTour;
 				Tour motherTour = matingTourList.get(0);
 
+				Log.getInstance().add(fatherTour.getName() + " + " + motherTour.getName());
+				Log.getInstance().logCities(fatherTour);
+				Log.getInstance().logCities(motherTour);
+
 				for (int i = 0; i < 2; i++) {
-					CityList parentPart1CityList = fatherTour.getCityList();
-					CityList parentPart2CityList = motherTour.getCityList();
+					Tour parentPart1Tour = fatherTour;
+					Tour parentPart2Tour = motherTour;
 
 					if (i == 1) {
-						CityList tmpParentPartCityList = parentPart1CityList;
-						parentPart1CityList = parentPart2CityList;
-						parentPart2CityList = tmpParentPartCityList;
+						Tour tmpParentPartTour = parentPart1Tour;
+						parentPart1Tour = parentPart2Tour;
+						parentPart2Tour = tmpParentPartTour;
 					}
 
 					CityList childCityList = new CityList();
 					for (int j = 0; j < start; j++) {
-						childCityList.add(parentPart1CityList.get(j));
+						childCityList.add(parentPart1Tour.getCityList().get(j));
 					}
 
-					int j = start;
-					while (j < end) {
-						City nextCity = parentPart1CityList.get(j);
-						int indexOfNext = parentPart2CityList.indexOf(nextCity);
+					CityList remainingCities = new CityList();
+					for (int j = start; j <= end; j++) {
+						remainingCities.add(parentPart1Tour.getCityList().get(j));
+					}
 
-						int k = 0;
-						for (k = j + 1; k < parentPart1CityList.size(); k++) {
-							if (parentPart2CityList.indexOf(parentPart1CityList.get(k)) < indexOfNext) {
-								nextCity = parentPart1CityList.get(k);
-								indexOfNext = parentPart2CityList.indexOf(parentPart1CityList.get(k));
+					while (!remainingCities.isEmpty()) {
+						City nextCity = remainingCities.get(0);
+						int nextCityIndex = parentPart2Tour.getCityList().indexOf(nextCity);
+
+						for (int j = nextCityIndex - 1; j >= 0; j--) {
+							City alternativeCity = parentPart2Tour.getCityList().get(j);
+							if (remainingCities.contains(alternativeCity)) {
+								nextCity = alternativeCity;
+							} else if (parentPart1Tour.getCityList().indexOf(alternativeCity) >= start
+									&& parentPart1Tour.getCityList().indexOf(alternativeCity) <= end) {
+								break;
 							}
 						}
 
 						childCityList.add(nextCity);
-						j++;
+						remainingCities.remove(nextCity);
 					}
 
-					childCityList.add(parentPart1CityList.get(end));
-					
+					for (int j = end + 1; j < parentPart1Tour.getCityList().size(); j++) {
+						childCityList.add(parentPart1Tour.getCityList().get(j));
+					}
+
 					int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size() + 1;
-					childrenTourList.add(new Tour("Tour " + String.valueOf(tourNumber), childCityList));
+					Tour childTour = new Tour(tourNumber, childCityList);
+					Log.getInstance().logCities(childTour);
+					childrenTourList.add(childTour);
 				}
 
 				matingTourList.remove(0);

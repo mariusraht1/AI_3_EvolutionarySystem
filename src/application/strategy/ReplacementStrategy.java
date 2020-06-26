@@ -1,5 +1,6 @@
 package application.strategy;
 
+import application.Log;
 import application.model.Population;
 import application.model.TourList;
 
@@ -22,6 +23,7 @@ public enum ReplacementStrategy {
 	}
 
 	public TourList execute(TourList parentTourList, TourList childrenTourList) {
+		Log.getInstance().logHeader("Replacement");
 		TourList tourList = null;
 
 		switch (this) {

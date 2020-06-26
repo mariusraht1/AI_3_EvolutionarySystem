@@ -37,6 +37,18 @@ public class Tour implements Serializable {
 		this.fitness = fitness;
 	}
 
+	public Tour(int id, CityList cityList) {
+		if (id < 10 && id > 0) {
+			this.name = "Tour 00" + id;
+		} else if (id < 100 && id > 0) {
+			this.name = "Tour 0" + id;
+		} else {
+			this.name = "Tour " + id;
+		}
+		
+		setCityList(cityList);
+	}
+	
 	public Tour(String name, CityList cityList) {
 		setName(name);
 		setCityList(cityList);

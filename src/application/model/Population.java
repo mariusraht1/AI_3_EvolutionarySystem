@@ -85,7 +85,7 @@ public class Population {
 	}
 
 	private double mutationProbability;
-	
+
 	public double getMutationProbability() {
 		return mutationProbability;
 	}
@@ -185,29 +185,18 @@ public class Population {
 				tmpcityList.remove(random);
 			}
 
-			this.tourList.set(i, new Tour("Tour " + String.valueOf(i + 1), cityListPerTour));
+			this.tourList.set(i, new Tour((i + 1), cityListPerTour));
 		}
 
 		rateFitness(this.tourList);
 		sort(this.tourList);
 	}
 
-	// OPT Reduce calling of sort
 	public void sort(TourList tourList) {
 		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-
-//		StringBuilder fitnessVector = new StringBuilder("Fitness: [");
-//		for (Tour tour : tourList) {
-//			if (tour.equals(tourList.get(tourList.size() - 1))) {
-//				fitnessVector.append(tour.getFitness());
-//			} else {
-//				fitnessVector.append(tour.getFitness() + ", ");
-//			}
-//		}
-//		Log.getInstance().add(fitnessVector.toString() + "]");
+		Log.getInstance().logFitness(tourList);
 	}
 
-	// NEW Increase logging
 	// INFO Considering in related logic that 1st city has to be the last too
 	// INFO Fitness: Consider max(-f(x)) as minimization function
 	// INFO Warn if there aren't enough tours to replace the previous generation,
@@ -224,17 +213,20 @@ public class Population {
 			nextGeneration = replace(parentTourList, childrenTourList);
 		}
 
+		double currentOptimum = nextGeneration.get(0).getTotalDistance();
 		Log.getInstance().add("Current Optimum: " + nextGeneration.get(0).getTotalDistance());
-		for (int i = 0; i < getTourList().get(0).getCityList().size(); i++) {
-			Log.getInstance().add(String.valueOf(i + 1) + ") " + getTourList().get(0).getCityList().get(i).getName());
+		for (Tour tour : nextGeneration) {
+			if (tour.getFitness() > currentOptimum) {
+				break;
+			} else {
+				Log.getInstance().logCities(tour);
+			}
 		}
 
 		draw(canvas);
 
-		Population.getInstance().sort(this.tourList);
-
-		double min = getTourList().get(0).getTotalDistance();
-		double max = getTourList().get(getNumOfTours() - 1).getTotalDistance();
+		double min = nextGeneration.get(0).getTotalDistance();
+		double max = nextGeneration.get(getNumOfTours() - 1).getTotalDistance();
 
 		lbl_minTotalDistance.setText(String.format("%,.2f", min));
 		lbl_maxTotalDistance.setText(String.format("%,.2f", max));

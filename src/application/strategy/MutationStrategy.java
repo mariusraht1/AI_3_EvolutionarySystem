@@ -1,5 +1,6 @@
 package application.strategy;
 
+import application.Log;
 import application.Utilities;
 import application.model.City;
 import application.model.Population;
@@ -24,6 +25,7 @@ public enum MutationStrategy {
 	}
 
 	public TourList execute(TourList childrenTourList) {
+		Log.getInstance().logHeader("Mutation");
 		TourList mutatedTourList = new TourList();
 
 		switch (this) {
@@ -34,6 +36,8 @@ public enum MutationStrategy {
 			mutatedTourList = swapping(childrenTourList);
 			break;
 		}
+
+		Log.getInstance().logCities(mutatedTourList);
 
 		return addMissingTours(childrenTourList, mutatedTourList);
 	}
@@ -101,7 +105,7 @@ public enum MutationStrategy {
 
 		return mutabletourList;
 	}
-	
+
 	private TourList addMissingTours(TourList childrenTourList, TourList mutatedTourList) {
 		for (Tour mutatedTour : mutatedTourList) {
 			for (int i = 0; i < childrenTourList.size(); i++) {

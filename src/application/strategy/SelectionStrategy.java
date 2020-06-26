@@ -1,5 +1,6 @@
 package application.strategy;
 
+import application.Log;
 import application.Utilities;
 import application.model.Population;
 import application.model.Tour;
@@ -24,8 +25,8 @@ public enum SelectionStrategy {
 	}
 
 	public TourList execute(TourList tourList) {
-		Population.getInstance().sort(tourList);
-		
+		Log.getInstance().logHeader("Selection");
+
 		switch (this) {
 		case BEST:
 			tourList = best(tourList);
@@ -42,6 +43,8 @@ public enum SelectionStrategy {
 		}
 
 		Population.getInstance().sort(tourList);
+		Log.getInstance().logCities(tourList);
+		
 		return tourList;
 	}
 
@@ -118,7 +121,7 @@ public enum SelectionStrategy {
 			int c2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
 
 			double cumulatedFitness = tmpTourList.get(c1).getFitness() + tmpTourList.get(c2).getFitness();
-			
+
 			double p1 = 1 - (tmpTourList.get(c1).getFitness() / cumulatedFitness);
 			double p2 = 1 - (tmpTourList.get(c2).getFitness() / cumulatedFitness);
 
