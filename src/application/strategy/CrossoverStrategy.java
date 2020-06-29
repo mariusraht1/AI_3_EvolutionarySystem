@@ -39,7 +39,6 @@ public enum CrossoverStrategy {
 		return tourList;
 	}
 
-	// FIX One city can appear more than once in a cityList
 	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
