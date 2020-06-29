@@ -9,7 +9,7 @@ import application.model.Tour;
 import application.model.TourList;
 
 public enum CrossoverStrategy {
-	ONE_POINT("1-Punkt Rekombination");
+	ONE_POINT("1-Point Crossover"), EDGE_OPERATOR("Edge Recombination Operator");
 
 	private String name;
 
@@ -28,18 +28,6 @@ public enum CrossoverStrategy {
 	public TourList execute(TourList tourList) {
 		Log.getInstance().logHeader("Crossover");
 
-		switch (this) {
-		case ONE_POINT:
-			tourList = one_point(tourList);
-			break;
-		}
-
-		Log.getInstance().logCities(tourList);
-
-		return tourList;
-	}
-
-	public TourList one_point(TourList tourList) {
 		TourList childrenTourList = new TourList();
 		TourList parentTourList = new TourList(tourList);
 
@@ -58,56 +46,78 @@ public enum CrossoverStrategy {
 				Log.getInstance().logCities(fatherTour);
 				Log.getInstance().logCities(motherTour);
 
-				for (int i = 0; i < 2; i++) {
-					Tour parentPart1Tour = fatherTour;
-					Tour parentPart2Tour = motherTour;
+				switch (this) {
+				case EDGE_OPERATOR:
+					childrenTourList = edge_operator(childrenTourList, fatherTour, motherTour);
+					break;
+				case ONE_POINT:
+					childrenTourList = one_point(childrenTourList, fatherTour, motherTour);
+					break;
+				}
+			}
+		}
 
-					if (i == 1) {
-						Tour tmpParentPartTour = parentPart1Tour;
-						parentPart1Tour = parentPart2Tour;
-						parentPart2Tour = tmpParentPartTour;
+		Log.getInstance().logCities(childrenTourList);
+
+		return childrenTourList;
+	}
+
+	private TourList edge_operator(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
+
+		return childrenTourList;
+	}
+
+	private TourList one_point(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
+		int start = Utilities.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
+		int end = Evolution.getInstance().getNumOfCities() - 1;
+		Log.getInstance().add("Crossover: From " + start + " to " + end);
+
+		for (int i = 0; i < 2; i++) {
+			Tour parentPart1Tour = fatherTour;
+			Tour parentPart2Tour = motherTour;
+
+			if (i == 1) {
+				Tour tmpParentPartTour = parentPart1Tour;
+				parentPart1Tour = parentPart2Tour;
+				parentPart2Tour = tmpParentPartTour;
+			}
+
+			CityList childCityList = new CityList();
+			for (int j = 0; j < start; j++) {
+				childCityList.add(parentPart1Tour.getCityList().get(j));
+			}
+
+			CityList remainingCities = new CityList();
+			for (int j = start; j <= end; j++) {
+				remainingCities.add(parentPart1Tour.getCityList().get(j));
+			}
+
+			while (!remainingCities.isEmpty()) {
+				City nextCity = remainingCities.get(0);
+				int nextCityIndex = parentPart2Tour.getCityList().indexOf(nextCity);
+
+				for (int j = nextCityIndex - 1; j >= 0; j--) {
+					City alternativeCity = parentPart2Tour.getCityList().get(j);
+					if (remainingCities.contains(alternativeCity)) {
+						nextCity = alternativeCity;
+					} else if (parentPart1Tour.getCityList().indexOf(alternativeCity) >= start
+							&& parentPart1Tour.getCityList().indexOf(alternativeCity) <= end) {
+						break;
 					}
-
-					CityList childCityList = new CityList();
-					for (int j = 0; j < start; j++) {
-						childCityList.add(parentPart1Tour.getCityList().get(j));
-					}
-
-					CityList remainingCities = new CityList();
-					for (int j = start; j <= end; j++) {
-						remainingCities.add(parentPart1Tour.getCityList().get(j));
-					}
-
-					while (!remainingCities.isEmpty()) {
-						City nextCity = remainingCities.get(0);
-						int nextCityIndex = parentPart2Tour.getCityList().indexOf(nextCity);
-
-						for (int j = nextCityIndex - 1; j >= 0; j--) {
-							City alternativeCity = parentPart2Tour.getCityList().get(j);
-							if (remainingCities.contains(alternativeCity)) {
-								nextCity = alternativeCity;
-							} else if (parentPart1Tour.getCityList().indexOf(alternativeCity) >= start
-									&& parentPart1Tour.getCityList().indexOf(alternativeCity) <= end) {
-								break;
-							}
-						}
-
-						childCityList.add(nextCity);
-						remainingCities.remove(nextCity);
-					}
-
-					for (int j = end + 1; j < parentPart1Tour.getCityList().size(); j++) {
-						childCityList.add(parentPart1Tour.getCityList().get(j));
-					}
-
-					int tourNumber = Evolution.getInstance().getNumOfTours() + childrenTourList.size() + 1;
-					Tour childTour = new Tour(tourNumber, childCityList);
-					Log.getInstance().logCities(childTour);
-					childrenTourList.add(childTour);
 				}
 
-				matingTourList.remove(0);
+				childCityList.add(nextCity);
+				remainingCities.remove(nextCity);
 			}
+
+			for (int j = end + 1; j < parentPart1Tour.getCityList().size(); j++) {
+				childCityList.add(parentPart1Tour.getCityList().get(j));
+			}
+
+			int tourNumber = Evolution.getInstance().getNumOfTours() + childrenTourList.size() + 1;
+			Tour childTour = new Tour(tourNumber, childCityList);
+			Log.getInstance().logCities(childTour);
+			childrenTourList.add(childTour);
 		}
 
 		return childrenTourList;
