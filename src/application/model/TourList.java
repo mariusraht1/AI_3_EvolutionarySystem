@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import application.Log;
+import application.Utilities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -54,5 +55,20 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 		for (Tour tour : this) {
 			tour.draw(gc);
 		}
+	}
+	
+	public TourList getPercentile() {
+		TourList tmptourList = Utilities.getInstance().deepCopy(this);
+		TourList mutabletourList = new TourList();
+
+		for (Tour tour : tmptourList) {
+			double p = Utilities.getInstance().getRandom(0.0, 1.0);
+
+			if (p <= Evolution.getInstance().getMutationProbability()) {
+				mutabletourList.add(tour);
+			}
+		}
+
+		return mutabletourList;
 	}
 }

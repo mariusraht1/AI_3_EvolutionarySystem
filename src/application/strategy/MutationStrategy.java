@@ -3,7 +3,6 @@ package application.strategy;
 import application.Log;
 import application.Utilities;
 import application.model.City;
-import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
 
@@ -39,11 +38,11 @@ public enum MutationStrategy {
 
 		Log.getInstance().logCities(mutatedTourList);
 
-		return addMissingTours(childrenTourList, mutatedTourList);
+		return merge(childrenTourList, mutatedTourList);
 	}
 
 	private TourList inversion(TourList childrenTourList) {
-		TourList mutatedTourList = getPercentile(childrenTourList);
+		TourList mutatedTourList = childrenTourList.getPercentile();
 
 		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
@@ -86,11 +85,10 @@ public enum MutationStrategy {
 		}
 
 		return mutatedTourList;
-
 	}
 
 	private TourList swapping(TourList childrenTourList) {
-		TourList mutatedTourList = getPercentile(childrenTourList);
+		TourList mutatedTourList = childrenTourList.getPercentile();
 
 		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
@@ -106,25 +104,10 @@ public enum MutationStrategy {
 		return mutatedTourList;
 	}
 
-	private TourList getPercentile(TourList tourList) {
-		TourList tmptourList = Utilities.getInstance().deepCopy(tourList);
-		TourList mutabletourList = new TourList();
-
-		for (Tour tour : tmptourList) {
-			double p = Utilities.getInstance().getRandom(0.0, 1.0);
-
-			if (p <= Evolution.getInstance().getMutationProbability()) {
-				mutabletourList.add(tour);
-			}
-		}
-
-		return mutabletourList;
-	}
-
-	private TourList addMissingTours(TourList childrenTourList, TourList mutatedTourList) {
+	private TourList merge(TourList childrenTourList, TourList mutatedTourList) {
 		for (Tour mutatedTour : mutatedTourList) {
 			for (int i = 0; i < childrenTourList.size(); i++) {
-				if (mutatedTour.getName().equals(childrenTourList.get(i).getName())) {
+				if (mutatedTour.getId() == childrenTourList.get(i).getId()) {
 					childrenTourList.set(i, mutatedTour);
 					break;
 				}
