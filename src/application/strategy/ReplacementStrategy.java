@@ -1,7 +1,7 @@
 package application.strategy;
 
 import application.Log;
-import application.model.Population;
+import application.model.Evolution;
 import application.model.TourList;
 
 public enum ReplacementStrategy {
@@ -40,7 +40,7 @@ public enum ReplacementStrategy {
 
 	private TourList only_children(TourList childrenTourList) {
 		TourList tourList = childrenTourList;
-		Population.getInstance().sort(tourList);
+		tourList.sort();
 
 		return selectBest(tourList);
 	}
@@ -48,7 +48,7 @@ public enum ReplacementStrategy {
 	private TourList parents_and_children(TourList parentTourList, TourList childrenTourList) {
 		TourList tourList = parentTourList;
 		tourList.addAll(childrenTourList);
-		Population.getInstance().sort(tourList);
+		tourList.sort();
 
 		return selectBest(tourList);
 	}
@@ -56,7 +56,7 @@ public enum ReplacementStrategy {
 	private TourList selectBest(TourList tourList) {
 		TourList result = new TourList();
 
-		while (result.size() < Population.getInstance().getNumOfTours() && !tourList.isEmpty()) {
+		while (result.size() < Evolution.getInstance().getNumOfTours() && !tourList.isEmpty()) {
 			result.add(tourList.get(0));
 			tourList.remove(tourList.get(0));
 		}

@@ -47,7 +47,7 @@ public class Main extends Application {
 		try {
 			Main.primaryStage = primaryStage;
 
-			primaryStage.setTitle("Fuzzy System");
+			primaryStage.setTitle("Evolutionary System");
 			primaryStage.centerOnScreen();
 
 			Scene scene = new Scene(FXMLLoader.load(Main.class.getResource("/application/view/MainScene.fxml")));

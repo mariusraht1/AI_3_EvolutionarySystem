@@ -45,7 +45,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: lightgrey;" GridPane.columnIndex="7" GridPane.rowSpan="12">
                <children>
-                  <Label fx:id="lbl_round" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Round 0" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                  <Label fx:id="lbl_round" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Runde 0" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets bottom="10.0" top="10.0" />
                      </padding>

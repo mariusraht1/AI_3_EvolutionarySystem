@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import application.model.City;
-import application.model.Population;
+import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
 import javafx.scene.control.ListView;
@@ -60,7 +60,7 @@ public class Log {
 		StringBuilder tourString = new StringBuilder(tour.getName() + " (" + fitness + "): [");
 
 		for (City city : tour.getCityList()) {
-			if (city.equals(tour.getCityList().get(Population.getInstance().getNumOfCities() - 1))) {
+			if (city.equals(tour.getCityList().get(Evolution.getInstance().getNumOfCities() - 1))) {
 				tourString.append(city.getName());
 			} else {
 				tourString.append(city.getName() + ", ");

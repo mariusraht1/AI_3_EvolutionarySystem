@@ -3,7 +3,7 @@ package application.strategy;
 import application.Log;
 import application.Utilities;
 import application.model.City;
-import application.model.Population;
+import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
 
@@ -98,7 +98,7 @@ public enum MutationStrategy {
 		for (Tour tour : tmptourList) {
 			double p = Utilities.getInstance().getRandom(0.0, 1.0);
 
-			if (p <= Population.getInstance().getMutationProbability()) {
+			if (p <= Evolution.getInstance().getMutationProbability()) {
 				mutabletourList.add(tour);
 			}
 		}

@@ -1,7 +1,6 @@
 package application.model;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import application.History;
 import application.Log;
@@ -17,17 +16,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
-public class Population {
-	private static Population instance;
+public class Evolution {
+	private static Evolution instance;
 
-	public static Population getInstance() {
+	public static Evolution getInstance() {
 		if (instance == null) {
-			instance = new Population();
+			instance = new Evolution();
 		}
 
 		return instance;
 	}
-	
+
 	private int numOfRounds;
 
 	public int getNumOfRounds() {
@@ -155,7 +154,7 @@ public class Population {
 		this.replacementStrategy = replacementStrategy;
 	}
 
-	private Population() {
+	private Evolution() {
 		reset();
 	}
 
@@ -199,36 +198,36 @@ public class Population {
 			this.tourList.set(i, new Tour((i + 1), cityListPerTour));
 		}
 
-		rateFitness(this.tourList);
-		sort(this.tourList);
+		this.tourList.rateFitness();
+		this.tourList.sort();
 	}
 
-	public void sort(TourList tourList) {
-		Collections.sort(tourList, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
-		Log.getInstance().logFitness(tourList);
-	}
-
-	// INFO Considering in related logic that 1st city has to be the last too
-	// INFO Fitness: Consider max(-f(x)) as minimization function
-	// INFO Warn if there aren't enough tours to replace the previous generation,
-	// cause something went wrong
-	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance, Label lbl_round) {
+	public void play(int numOfSteps, Canvas canvas, Label lbl_minTotalDistance, Label lbl_maxTotalDistance,
+			Label lbl_round) {
+		TourList prevGeneration = this.tourList;
 		TourList nextGeneration = this.tourList;
+		nextGeneration.rateFitness();
 
-		for (int n = 1; n <= numOfSteps; n++) {
-			rateFitness(nextGeneration);
+		int n = 1;
+		do {
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);
-			rateFitness(childrenTourList);
+			childrenTourList.rateFitness();
+			prevGeneration = Utilities.getInstance().deepCopy(nextGeneration);
 			nextGeneration = replace(parentTourList, childrenTourList);
-			
+
 			History.getInstance().add(this.numOfRounds, nextGeneration);
 			this.numOfRounds++;
-		}
+
+			n++;
+		} while (!exit(n, numOfSteps, prevGeneration, nextGeneration));
+
+		this.tourList = nextGeneration;
+		this.tourList.draw(canvas);
 
 		double currentOptimum = nextGeneration.get(0).getTotalDistance();
-		Log.getInstance().add("Current Optimum: " + nextGeneration.get(0).getTotalDistance());
+		Log.getInstance().add("Aktuelles Optimum: " + nextGeneration.get(0).getTotalDistance());
 		for (Tour tour : nextGeneration) {
 			if (tour.getFitness() > currentOptimum) {
 				break;
@@ -237,20 +236,53 @@ public class Population {
 			}
 		}
 
-		draw(canvas);
-
 		double min = nextGeneration.get(0).getTotalDistance();
 		double max = nextGeneration.get(getNumOfTours() - 1).getTotalDistance();
 
 		lbl_minTotalDistance.setText(String.format("%,.2f", min));
 		lbl_maxTotalDistance.setText(String.format("%,.2f", max));
-		lbl_round.setText("Round " + this.numOfRounds);
+		lbl_round.setText("Runde " + this.numOfRounds);
 	}
 
-	public void rateFitness(TourList tourList) {
-		for (Tour tour : tourList) {
-			tour.setFitness(tour.getTotalDistance());
+	private boolean exit(int n, int numOfSteps, TourList prevGeneration, TourList nextGeneration) {
+		boolean exit = false;
+
+		int i = 0;
+		while (!exit) {
+			switch (i) {
+			case 0:
+				if (n > numOfSteps) {
+					exit = true;
+				}
+				break;
+			case 1:
+				exit = true;
+				double minFitness = nextGeneration.get(0).getFitness();
+				
+				for (int j = 1; j < nextGeneration.size() - 1; j++) {
+					if (nextGeneration.get(j).getFitness() != minFitness) {
+						exit = false;
+						break;
+					}
+				}
+				
+				if(exit) {
+					Log.getInstance().add("Ende: Lösungsmenge besitzt homogene Fitness-Werte.");
+				}
+				
+				break;
+			case 2:
+				if(prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
+					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
+					exit = true;
+				}
+				break;
+			}
+
+			i++;
 		}
+
+		return exit;
 	}
 
 	public TourList selection(TourList nextGenerationTourList) {
@@ -273,29 +305,8 @@ public class Population {
 		return replacementStrategy.execute(parentTourList, childrenTourList);
 	}
 
-	public void draw(Canvas canvas) {
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setStroke(Color.rgb(0, 0, 255, 0.02));
-		gc.setLineWidth(1.0);
-
-		for (Tour tour : this.tourList) {
-			tour.draw(gc);
-		}
-	}
-
-	public double getCumulatedFitness(TourList tourList) {
-		double cumulatedFitness = 0.0;
-
-		for (Tour tour : tourList) {
-			cumulatedFitness += tour.getFitness();
-		}
-
-		return cumulatedFitness;
-	}
-
 	public int getNumOfParents() {
 		// Each parent pair gets 2 children
-		return Population.getInstance().getNumOfTours() / 2;
+		return Evolution.getInstance().getNumOfTours() / 2;
 	}
 }

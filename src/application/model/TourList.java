@@ -2,7 +2,13 @@ package application.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import application.Log;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class TourList extends ArrayList<Tour> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -12,5 +18,41 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 	}
 
 	public TourList() {
+	}
+	
+	public void rateFitness() {
+		for (Tour tour : this) {
+			tour.setFitness(tour.getTotalDistance());
+		}
+	}
+	
+	public double getTotalFitness() {
+		double cumulatedFitness = 0.0;
+
+		for (Tour tour : this) {
+			cumulatedFitness += tour.getFitness();
+		}
+
+		return cumulatedFitness;
+	}
+	
+	public double getFitnessMean() {
+		return getTotalFitness() / this.size();
+	}
+	
+	public void sort() {
+		Collections.sort(this, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
+		Log.getInstance().logFitness(this);
+	}
+	
+	public void draw(Canvas canvas) {
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setStroke(Color.rgb(0, 0, 255, 0.02));
+		gc.setLineWidth(1.0);
+
+		for (Tour tour : this) {
+			tour.draw(gc);
+		}
 	}
 }

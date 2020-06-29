@@ -2,7 +2,7 @@ package application.strategy;
 
 import application.Log;
 import application.Utilities;
-import application.model.Population;
+import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
 
@@ -42,7 +42,7 @@ public enum SelectionStrategy {
 			break;
 		}
 
-		Population.getInstance().sort(tourList);
+		tourList.sort();
 		Log.getInstance().logCities(tourList);
 
 		return tourList;
@@ -51,7 +51,7 @@ public enum SelectionStrategy {
 	private TourList best(TourList tourList) {
 		TourList result = new TourList();
 
-		for (int i = 0; i < Population.getInstance().getNumOfParents(); i++) {
+		for (int i = 0; i < Evolution.getInstance().getNumOfParents(); i++) {
 			result.add((Tour) Utilities.getInstance().deepCopy(tourList.get(i)));
 		}
 
@@ -62,9 +62,9 @@ public enum SelectionStrategy {
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
-		double cumulatedFitness = Population.getInstance().getCumulatedFitness(tmpTourList);
+		double cumulatedFitness = tmpTourList.getTotalFitness();
 
-		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
+		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
 			for (Tour tour : tmpTourList) {
@@ -91,7 +91,7 @@ public enum SelectionStrategy {
 			cumulatedRank += (i + 1);
 		}
 
-		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
+		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
 			for(Tour tour : tmpTourList) {
@@ -115,7 +115,7 @@ public enum SelectionStrategy {
 		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
-		while (result.size() < Population.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
+		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			int t1 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
 			int t2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
 

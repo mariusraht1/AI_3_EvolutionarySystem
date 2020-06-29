@@ -4,7 +4,7 @@ import application.Log;
 import application.Utilities;
 import application.model.City;
 import application.model.CityList;
-import application.model.Population;
+import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
 
@@ -44,11 +44,11 @@ public enum CrossoverStrategy {
 		TourList parentTourList = new TourList(tourList);
 
 		for (Tour parentTour : parentTourList) {
-			int start = Utilities.getInstance().getRandom(0, Population.getInstance().getNumOfCities() - 2);
-			int end = Population.getInstance().getNumOfCities() - 1;
+			int start = Utilities.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
+			int end = Evolution.getInstance().getNumOfCities() - 1;
 			Log.getInstance().add("Crossover: From " + start + " to " + end);
 
-			TourList matingTourList = Population.getInstance().mate(parentTourList, parentTour);
+			TourList matingTourList = Evolution.getInstance().mate(parentTourList, parentTour);
 
 			while (!matingTourList.isEmpty()) {
 				Tour fatherTour = parentTour;
@@ -100,7 +100,7 @@ public enum CrossoverStrategy {
 						childCityList.add(parentPart1Tour.getCityList().get(j));
 					}
 
-					int tourNumber = Population.getInstance().getNumOfTours() + childrenTourList.size() + 1;
+					int tourNumber = Evolution.getInstance().getNumOfTours() + childrenTourList.size() + 1;
 					Tour childTour = new Tour(tourNumber, childCityList);
 					Log.getInstance().logCities(childTour);
 					childrenTourList.add(childTour);
