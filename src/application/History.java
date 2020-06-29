@@ -53,6 +53,17 @@ public class History {
 	}
 
 	public void add(int round, TourList tourList) {
+		Log.getInstance().logHeader("Optimum Rating");
+		double currentOptimum = tourList.get(0).getTotalDistance();
+		Log.getInstance().add("Aktuelles Optimum: " + tourList.get(0).getTotalDistance());
+		for (Tour tour : tourList) {
+			if (tour.getFitness() > currentOptimum) {
+				break;
+			} else {
+				Log.getInstance().logCities(tour);
+			}
+		}
+
 		for (Tour tour : tourList) {
 			StringBuilder order = new StringBuilder("[");
 			for (City city : tour.getCityList()) {
@@ -63,7 +74,8 @@ public class History {
 				}
 			}
 			order.append("]");
-			evolution.add(new String[] { String.valueOf(round), tour.getName(), String.valueOf(tour.getFitness()), order.toString() });
+			evolution.add(new String[] { String.valueOf(round), tour.getName(), String.valueOf(tour.getFitness()),
+					order.toString() });
 		}
 	}
 

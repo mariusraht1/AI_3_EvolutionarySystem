@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * Evolutionary System for Traveling Salesman Problem
  * 
  * @author Marius Raht
- * @version 25.06.2020-001
+ * @version 29.06.2020-001
  */
 public class Main extends Application {
 	private static Stage primaryStage;
@@ -27,7 +27,7 @@ public class Main extends Application {
 
 	public final static int MinNumOfCities = 3;
 	public final static int MaxNumOfCities = 50;
-	public final static int DefaultNumOfCities = 5;
+	public final static int DefaultNumOfCities = 15;
 	public final static int DefaultNumOfTours = 100;
 	public final static int MinNumOfSteps = 1;
 	public final static int MaxNumOfSteps = 500;

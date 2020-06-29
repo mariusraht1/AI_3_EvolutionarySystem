@@ -12,9 +12,7 @@ import application.strategy.MutationStrategy;
 import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 
 public class Evolution {
 	private static Evolution instance;
@@ -160,6 +158,7 @@ public class Evolution {
 
 	public void reset() {
 		this.numOfCities = Main.DefaultNumOfCities;
+		this.mutationProbability = Main.DefaultMutationProbability;
 
 		this.selectionStrategy = Main.DefaultSelectionStrategy;
 		this.matingStrategy = Main.DefaultMatingStrategy;
@@ -216,6 +215,7 @@ public class Evolution {
 			childrenTourList.rateFitness();
 			prevGeneration = Utilities.getInstance().deepCopy(nextGeneration);
 			nextGeneration = replace(parentTourList, childrenTourList);
+			nextGeneration.sort();
 
 			History.getInstance().add(this.numOfRounds, nextGeneration);
 			this.numOfRounds++;
@@ -225,16 +225,6 @@ public class Evolution {
 
 		this.tourList = nextGeneration;
 		this.tourList.draw(canvas);
-
-		double currentOptimum = nextGeneration.get(0).getTotalDistance();
-		Log.getInstance().add("Aktuelles Optimum: " + nextGeneration.get(0).getTotalDistance());
-		for (Tour tour : nextGeneration) {
-			if (tour.getFitness() > currentOptimum) {
-				break;
-			} else {
-				Log.getInstance().logCities(tour);
-			}
-		}
 
 		double min = nextGeneration.get(0).getTotalDistance();
 		double max = nextGeneration.get(getNumOfTours() - 1).getTotalDistance();
@@ -248,32 +238,32 @@ public class Evolution {
 		boolean exit = false;
 
 		int i = 0;
-		while (!exit) {
+		while (!exit &&  i <= 2) {
 			switch (i) {
 			case 0:
-				if (n > numOfSteps) {
-					exit = true;
-				}
-				break;
-			case 1:
 				exit = true;
 				double minFitness = nextGeneration.get(0).getFitness();
-				
+
 				for (int j = 1; j < nextGeneration.size() - 1; j++) {
 					if (nextGeneration.get(j).getFitness() != minFitness) {
 						exit = false;
 						break;
 					}
 				}
-				
-				if(exit) {
+
+				if (exit) {
 					Log.getInstance().add("Ende: Lösungsmenge besitzt homogene Fitness-Werte.");
 				}
-				
+
+				break;
+			case 1:
+				if (prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
+					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
+					exit = true;
+				}
 				break;
 			case 2:
-				if(prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
-					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
+				if (n > numOfSteps) {
 					exit = true;
 				}
 				break;

@@ -58,7 +58,7 @@ public class MainScene {
 		tf_numOfCities.setPromptText(String.valueOf(Main.MinNumOfCities) + "-" + String.valueOf(Main.MaxNumOfCities));
 		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 		tf_numOfSteps.setPromptText(String.valueOf(Main.MinNumOfSteps) + "-" + String.valueOf(Main.MaxNumOfSteps));
-		tf_mutationProbability.setText(String.valueOf(Main.DefaultMutationProbability));
+		tf_mutationProbability.setText(String.valueOf(Evolution.getInstance().getMutationProbability()));
 		cb_selection_strategy.setItems(FXCollections.observableArrayList(SelectionStrategy.values()));
 		cb_selection_strategy.getSelectionModel().select(Evolution.getInstance().getSelectionStrategy());
 		cb_mating_strategy.setItems(FXCollections.observableArrayList(MatingStrategy.values()));
