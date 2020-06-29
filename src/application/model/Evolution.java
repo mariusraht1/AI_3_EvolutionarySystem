@@ -208,7 +208,7 @@ public class Evolution {
 		nextGeneration.rateFitness();
 
 		int n = 1;
-		do {
+		while (!exit(n, numOfSteps, prevGeneration, nextGeneration)) {
 			TourList parentTourList = selection(nextGeneration);
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);
@@ -221,7 +221,7 @@ public class Evolution {
 			this.numOfRounds++;
 
 			n++;
-		} while (!exit(n, numOfSteps, prevGeneration, nextGeneration));
+		}
 
 		this.tourList = nextGeneration;
 		this.tourList.draw(canvas);
@@ -238,7 +238,7 @@ public class Evolution {
 		boolean exit = false;
 
 		int i = 0;
-		while (!exit &&  i <= 2) {
+		while (!exit && i <= 2) {
 			switch (i) {
 			case 0:
 				exit = true;
@@ -257,7 +257,7 @@ public class Evolution {
 
 				break;
 			case 1:
-				if (prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
+				if (prevGeneration != nextGeneration && prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
 					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
 					exit = true;
 				}

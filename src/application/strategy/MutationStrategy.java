@@ -49,31 +49,44 @@ public enum MutationStrategy {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
 			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
 
-			// Define termination condition
-			int stop = 0; // r2 > r1
-			if (r1 < r2) {
-				stop = 1; // r2 <= r1
-			} else if (r1 > r2) {
-				stop = 2; // r2 >= r1
-			}
+			Log.getInstance().add(tour.getName() + ": Zwischen " + r1 + " und " + r2 + " spiegeln.");
 
-			boolean isActive = true;
-			while (isActive) {
-				r1++;
-				r2--;
+			if (r2 >= r1) {
+				int n = 0;
+				boolean isActive = true;
+				while (isActive) {
+					r1++;
+					r2--;
 
-				// Switch r1 with r2
-				City tmpCity = tour.getCityList().get(r1);
-				tour.getCityList().set(r1, tour.getCityList().get(r2));
-				tour.getCityList().set(r2, tmpCity);
+					if (r1 > tour.getCityList().size() - 1) {
+						r1 = 0;
+					}
 
-				if ((stop == 0 && r2 > r1) || (stop == 1 && r2 <= r1) || (stop == 2 && r2 >= r1)) {
-					isActive = false;
+					if (r2 < 0) {
+						r2 = tour.getCityList().size() - 1;
+					}
+
+					if ((r1 == r2 && n != 0) || r2 == r1 - 1) {
+						isActive = false;
+					} else if (r1 != r2) {
+						Log.getInstance().add("Vertausche Indizes " + r1 + " und " + r2 + " miteinander.");
+
+						// Switch r1 with r2
+						City tmpCity = tour.getCityList().get(r1);
+						tour.getCityList().set(r1, tour.getCityList().get(r2));
+						tour.getCityList().set(r2, tmpCity);
+					}
+
+					n++;
 				}
+			} else {
+				Log.getInstance().add("Keine Mutation: Zwischen r1 und r2 gibt es keine weiteren Indizes.");
+				continue;
 			}
 		}
 
 		return mutatedTourList;
+
 	}
 
 	private TourList swapping(TourList childrenTourList) {
@@ -82,6 +95,8 @@ public enum MutationStrategy {
 		for (Tour tour : mutatedTourList) {
 			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
 			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
+
+			Log.getInstance().add(tour.getName() + ": Vertausche Indizes " + r1 + " und " + r2 + " miteinander.");
 
 			City tmpCity = new City(tour.getCityList().get(r1));
 			tour.getCityList().set(r1, tour.getCityList().get(r2));
