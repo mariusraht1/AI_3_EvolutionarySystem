@@ -73,7 +73,7 @@ public class City implements Serializable {
 
 		if (object != null && object instanceof City) {
 			City city = (City) object;
-			equals = this.name.equals(city.getName()) && this.x == city.getX() && this.y == city.getY();
+			equals = this.id == city.getId() && this.x == city.getX() && this.y == city.getY();
 		}
 
 		return equals;

@@ -61,9 +61,9 @@ public class Log {
 
 		for (City city : tour.getCityList()) {
 			if (city.equals(tour.getCityList().get(Evolution.getInstance().getNumOfCities() - 1))) {
-				tourString.append(city.getName());
+				tourString.append(city.getId());
 			} else {
-				tourString.append(city.getName() + ", ");
+				tourString.append(city.getId() + ", ");
 			}
 		}
 

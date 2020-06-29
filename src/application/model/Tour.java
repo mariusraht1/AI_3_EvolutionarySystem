@@ -106,7 +106,7 @@ public class Tour implements Serializable {
 
 		if (object != null && object instanceof Tour) {
 			Tour tour = (Tour) object;
-			equals = this.name.equals(tour.getName()) && this.cityList.equals(tour.getCityList());
+			equals = this.id == tour.getId() && this.cityList.equals(tour.getCityList());
 		}
 
 		return equals;
