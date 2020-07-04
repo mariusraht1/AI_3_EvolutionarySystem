@@ -1,5 +1,8 @@
 package application.strategy;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import application.Log;
 import application.Utilities;
 import application.model.City;
@@ -63,6 +66,75 @@ public enum CrossoverStrategy {
 	}
 
 	private TourList edge_operator(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
+		HashMap<City, CityList> neighbourCityList = new HashMap<City, CityList>();
+
+		for (City city : fatherTour.getCityList()) {
+			CityList neighbours = new CityList();
+
+			for (int i = 0; i < 2; i++) {
+				Tour parentPart1Tour = fatherTour;
+				Tour parentPart2Tour = motherTour;
+
+				if (i == 1) {
+					Tour tmpParentPartTour = parentPart1Tour;
+					parentPart1Tour = parentPart2Tour;
+					parentPart2Tour = tmpParentPartTour;
+				}
+
+				int indexInParentPart1Tour = parentPart1Tour.getCityList().indexOf(city);
+
+				// 0 => Get right neighbour
+				// 1 => Get left neighbour
+				for (int j = 0; j < 2; j++) {
+					int indexNeighbour = indexInParentPart1Tour + 1;
+					if (j == 1) {
+						indexNeighbour = indexInParentPart1Tour - 1;
+					}
+
+					if (!neighbours.contains(parentPart1Tour.getCityList().get(indexNeighbour))) {
+						neighbours.add(parentPart1Tour.getCityList().get(indexNeighbour));
+					}
+				}
+			}
+
+			neighbourCityList.put(city, neighbours);
+		}
+
+		ArrayList<City> keys = new ArrayList<City>(neighbourCityList.keySet());
+		
+		for (int i = 0; i < 2; i++) {
+			Tour parentPart1Tour = fatherTour;
+			Tour parentPart2Tour = motherTour;
+
+			if (i == 1) {
+				Tour tmpParentPartTour = parentPart1Tour;
+				parentPart1Tour = parentPart2Tour;
+				parentPart2Tour = tmpParentPartTour;
+			}
+
+			// NEW Implement
+			CityList childCityList = new CityList();
+			
+			City childCity = keys.get(0);
+			childCityList.add(childCity);
+			neighbourCityList.remove(childCity);
+			keys.remove(childCity);
+			
+			for(int j = 0; j < neighbourCityList.size(); j++) {
+				City key = keys.get(j);
+				neighbourCityList.get(key).remove(childCity);
+			}
+			
+			
+			
+			
+			
+			
+			int tourNumber = Evolution.getInstance().getNumOfTours() + childrenTourList.size() + 1;
+			Tour childTour = new Tour(tourNumber, childCityList);
+			Log.getInstance().logCities(childTour);
+			childrenTourList.add(childTour);
+		}
 
 		return childrenTourList;
 	}
