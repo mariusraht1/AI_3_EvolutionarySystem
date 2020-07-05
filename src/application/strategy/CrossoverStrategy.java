@@ -51,10 +51,10 @@ public enum CrossoverStrategy {
 
 				switch (this) {
 				case EDGE_OPERATOR:
-					childrenTourList = edge_operator(childrenTourList, fatherTour, motherTour);
+					edge_operator(childrenTourList, fatherTour, motherTour);
 					break;
 				case ONE_POINT:
-					childrenTourList = one_point(childrenTourList, fatherTour, motherTour);
+					one_point(childrenTourList, fatherTour, motherTour);
 					break;
 				}
 			}
@@ -65,7 +65,7 @@ public enum CrossoverStrategy {
 		return childrenTourList;
 	}
 
-	private TourList edge_operator(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
+	private void edge_operator(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
 		HashMap<City, CityList> neighbourCityList = new HashMap<City, CityList>();
 
 		for (City city : fatherTour.getCityList()) {
@@ -91,6 +91,12 @@ public enum CrossoverStrategy {
 						indexNeighbour = indexInParentPart1Tour - 1;
 					}
 
+					if (indexNeighbour < 0) {
+						indexNeighbour = 0;
+					} else if (indexNeighbour >= parentPart1Tour.getCityList().size()) {
+						indexNeighbour = parentPart1Tour.getCityList().size() - 1;
+					}
+
 					if (!neighbours.contains(parentPart1Tour.getCityList().get(indexNeighbour))) {
 						neighbours.add(parentPart1Tour.getCityList().get(indexNeighbour));
 					}
@@ -101,7 +107,7 @@ public enum CrossoverStrategy {
 		}
 
 		ArrayList<City> keys = new ArrayList<City>(neighbourCityList.keySet());
-		
+
 		for (int i = 0; i < 2; i++) {
 			Tour parentPart1Tour = fatherTour;
 			Tour parentPart2Tour = motherTour;
@@ -114,18 +120,17 @@ public enum CrossoverStrategy {
 
 			// NEW Implement
 			CityList childCityList = new CityList();
-			
+
 			City childCity = keys.get(0);
 			childCityList.add(childCity);
 			neighbourCityList.remove(childCity);
 			keys.remove(childCity);
-			
-			for(int j = 0; j < neighbourCityList.size(); j++) {
+
+			for (int j = 0; j < neighbourCityList.size(); j++) {
 				City key = keys.get(j);
 				neighbourCityList.get(key).remove(childCity);
 			}
-			
-			
+
 			
 			
 			
@@ -135,11 +140,9 @@ public enum CrossoverStrategy {
 			Log.getInstance().logCities(childTour);
 			childrenTourList.add(childTour);
 		}
-
-		return childrenTourList;
 	}
 
-	private TourList one_point(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
+	private void one_point(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
 		int start = Utilities.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
 		int end = Evolution.getInstance().getNumOfCities() - 1;
 		Log.getInstance().add("Crossover: From " + start + " to " + end);
@@ -191,8 +194,6 @@ public enum CrossoverStrategy {
 			Log.getInstance().logCities(childTour);
 			childrenTourList.add(childTour);
 		}
-
-		return childrenTourList;
 	}
 
 	@Override
