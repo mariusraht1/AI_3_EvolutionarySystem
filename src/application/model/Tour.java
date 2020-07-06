@@ -111,4 +111,9 @@ public class Tour implements Serializable {
 
 		return equals;
 	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

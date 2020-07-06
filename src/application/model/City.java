@@ -78,4 +78,9 @@ public class City implements Serializable {
 
 		return equals;
 	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

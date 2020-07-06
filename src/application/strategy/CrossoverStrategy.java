@@ -120,12 +120,14 @@ public enum CrossoverStrategy {
 			ArrayList<City> keys = new ArrayList<City>(tmpNeighbourCityList.keySet());
 			CityList childCityList = new CityList();
 			boolean firstRound = true;
+			
+			City childCity = keys.get(keys.indexOf(parentPart1Tour.getCityList().get(0)));
 
 			while (childCityList.size() < parentPart1Tour.getCityList().size()) {
-				City childCity = parentPart1Tour.getCityList().get(0);
 				if (firstRound) {
 					firstRound = false;
 				} else {
+					childCity = keys.get(0);
 					int minNumOfNeighbours = tmpNeighbourCityList.get(childCity).size();
 					for (int j = 1; j < keys.size(); j++) {
 						if (tmpNeighbourCityList.get(keys.get(j)).size() < minNumOfNeighbours) {
