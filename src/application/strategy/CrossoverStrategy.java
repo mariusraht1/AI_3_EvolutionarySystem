@@ -92,9 +92,9 @@ public enum CrossoverStrategy {
 					}
 
 					if (indexNeighbour < 0) {
-						indexNeighbour = 0;
-					} else if (indexNeighbour >= parentPart1Tour.getCityList().size()) {
 						indexNeighbour = parentPart1Tour.getCityList().size() - 1;
+					} else if (indexNeighbour >= parentPart1Tour.getCityList().size()) {
+						indexNeighbour = 0;
 					}
 
 					if (!neighbours.contains(parentPart1Tour.getCityList().get(indexNeighbour))) {
@@ -106,8 +106,6 @@ public enum CrossoverStrategy {
 			neighbourCityList.put(city, neighbours);
 		}
 
-		ArrayList<City> keys = new ArrayList<City>(neighbourCityList.keySet());
-
 		for (int i = 0; i < 2; i++) {
 			Tour parentPart1Tour = fatherTour;
 			Tour parentPart2Tour = motherTour;
@@ -117,24 +115,58 @@ public enum CrossoverStrategy {
 				parentPart1Tour = parentPart2Tour;
 				parentPart2Tour = tmpParentPartTour;
 			}
-
-			// NEW Implement
+			
+			HashMap<City, CityList> tmpNeighbourCityList = Utilities.getInstance().deepCopy(neighbourCityList);
+			ArrayList<City> keys = new ArrayList<City>(tmpNeighbourCityList.keySet());
 			CityList childCityList = new CityList();
+			boolean firstRound = true;
 
-			City childCity = keys.get(0);
-			childCityList.add(childCity);
-			neighbourCityList.remove(childCity);
-			keys.remove(childCity);
+			while (childCityList.size() < parentPart1Tour.getCityList().size()) {
+				City childCity = parentPart1Tour.getCityList().get(0);
+				if (firstRound) {
+					firstRound = false;
+				} else {
+					int minNumOfNeighbours = tmpNeighbourCityList.get(childCity).size();
+					for (int j = 1; j < keys.size(); j++) {
+						if (tmpNeighbourCityList.get(keys.get(j)).size() < minNumOfNeighbours) {
+							minNumOfNeighbours = tmpNeighbourCityList.get(keys.get(j)).size();
+						}
+					}
 
-			for (int j = 0; j < neighbourCityList.size(); j++) {
-				City key = keys.get(j);
-				neighbourCityList.get(key).remove(childCity);
+					ArrayList<Integer> cityWithMinNumOfNeighbours = new ArrayList<Integer>();
+					for (int j = 0; j < keys.size(); j++) {
+						if (tmpNeighbourCityList.get(keys.get(j)).size() == minNumOfNeighbours) {
+							cityWithMinNumOfNeighbours.add(j);
+						}
+					}
+
+					double r = Utilities.getInstance().getRandom(0.0, 1.0);
+					double stepSize = 1.0 / cityWithMinNumOfNeighbours.size();
+					double start = 0.0;
+					double end = stepSize;
+					
+					for (int j = 0; j < cityWithMinNumOfNeighbours.size(); j++) {
+						int keyIndex = cityWithMinNumOfNeighbours.get(j);
+						if (r >= start && r <= end) {
+							childCity = keys.get(cityWithMinNumOfNeighbours.get(keyIndex));
+							break;
+						}
+
+						start += stepSize;
+						end += stepSize;
+					}
+				}
+
+				childCityList.add(childCity);
+				tmpNeighbourCityList.remove(childCity);
+				keys.remove(childCity);
+
+				for (int j = 0; j < tmpNeighbourCityList.size(); j++) {
+					City key = keys.get(j);
+					tmpNeighbourCityList.get(key).remove(childCity);
+				}
 			}
 
-			
-			
-			
-			
 			int tourNumber = Evolution.getInstance().getNumOfTours() + childrenTourList.size() + 1;
 			Tour childTour = new Tour(tourNumber, childCityList);
 			Log.getInstance().logCities(childTour);
