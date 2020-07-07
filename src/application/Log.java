@@ -92,5 +92,4 @@ public class Log {
 		Log.getInstance().add("=== " + processName + " ===============================================");
 	}
 
-
 }

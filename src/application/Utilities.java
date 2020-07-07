@@ -81,16 +81,16 @@ public class Utilities {
 
 		return result;
 	}
-	
+
 	public double parseDouble(String s) {
 		double result = 0;
-		
+
 		try {
 			result = Double.parseDouble(s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 

@@ -257,7 +257,8 @@ public class Evolution {
 
 				break;
 			case 1:
-				if (prevGeneration != nextGeneration && prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
+				if (prevGeneration != nextGeneration
+						&& prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
 					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
 					exit = true;
 				}

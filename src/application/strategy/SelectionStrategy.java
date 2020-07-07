@@ -52,7 +52,7 @@ public enum SelectionStrategy {
 		TourList result = new TourList();
 
 		for (int i = 0; i < Evolution.getInstance().getNumOfParents(); i++) {
-			result.add((Tour) Utilities.getInstance().deepCopy(tourList.get(i)));
+			result.add(Utilities.getInstance().deepCopy(tourList.get(i)));
 		}
 
 		return result;
@@ -94,7 +94,7 @@ public enum SelectionStrategy {
 		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
 			double random = Utilities.getInstance().getRandom(0.0, 1.0);
 
-			for(Tour tour : tmpTourList) {
+			for (Tour tour : tmpTourList) {
 				double rank = tourList.indexOf(tour) + 1;
 
 				// rank => shortest distance is better

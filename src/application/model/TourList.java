@@ -20,13 +20,13 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 
 	public TourList() {
 	}
-	
+
 	public void rateFitness() {
 		for (Tour tour : this) {
 			tour.setFitness(tour.getTotalDistance());
 		}
 	}
-	
+
 	public double getTotalFitness() {
 		double cumulatedFitness = 0.0;
 
@@ -36,16 +36,16 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 
 		return cumulatedFitness;
 	}
-	
+
 	public double getFitnessMean() {
 		return getTotalFitness() / this.size();
 	}
-	
+
 	public void sort() {
 		Collections.sort(this, (c1, c2) -> Double.compare(c1.getFitness(), c2.getFitness()));
 		Log.getInstance().logFitness(this);
 	}
-	
+
 	public void draw(Canvas canvas) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -56,7 +56,7 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 			tour.draw(gc);
 		}
 	}
-	
+
 	public TourList getPercentile() {
 		TourList tmptourList = Utilities.getInstance().deepCopy(this);
 		TourList mutabletourList = new TourList();

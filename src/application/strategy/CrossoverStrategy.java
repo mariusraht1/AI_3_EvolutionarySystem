@@ -57,7 +57,7 @@ public enum CrossoverStrategy {
 					one_point(childrenTourList, fatherTour, motherTour);
 					break;
 				}
-				
+
 				matingTourList.remove(0);
 			}
 		}
@@ -117,12 +117,12 @@ public enum CrossoverStrategy {
 				parentPart1Tour = parentPart2Tour;
 				parentPart2Tour = tmpParentPartTour;
 			}
-			
+
 			HashMap<City, CityList> tmpNeighbourCityList = Utilities.getInstance().deepCopy(neighbourCityList);
 			ArrayList<City> keys = new ArrayList<City>(tmpNeighbourCityList.keySet());
 			CityList childCityList = new CityList();
 			boolean firstRound = true;
-			
+
 			City childCity = keys.get(keys.indexOf(parentPart1Tour.getCityList().get(0)));
 
 			while (childCityList.size() < parentPart1Tour.getCityList().size()) {
@@ -148,7 +148,7 @@ public enum CrossoverStrategy {
 					double stepSize = 1.0 / cityWithMinNumOfNeighbours.size();
 					double start = 0.0;
 					double end = stepSize;
-					
+
 					for (int j = 0; j < cityWithMinNumOfNeighbours.size(); j++) {
 						if (r >= start && r <= end) {
 							childCity = keys.get(cityWithMinNumOfNeighbours.get(j));

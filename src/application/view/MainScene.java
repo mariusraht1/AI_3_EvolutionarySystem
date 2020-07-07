@@ -74,10 +74,10 @@ public class MainScene {
 				.setText(String.format("%,.2f", Evolution.getInstance().getTourList().get(0).getTotalDistance()));
 		lbl_maxTotalDistance.setText(String.format("%,.2f", Evolution.getInstance().getTourList()
 				.get(Evolution.getInstance().getNumOfTours() - 1).getTotalDistance()));
-		
+
 		Evolution.getInstance().setNumOfRounds(0);
 		lbl_round.setText("Runde 0");
-		
+
 		Evolution.getInstance().getTourList().draw(cv_tours);
 	}
 
@@ -90,9 +90,9 @@ public class MainScene {
 			tf_numOfCities.setText(String.valueOf(Main.MinNumOfCities));
 		} else if (numOfCities > Main.MaxNumOfCities) {
 			tf_numOfCities.setText(String.valueOf(Main.MaxNumOfCities));
-		} else if(mutationProbability < Main.MinMutationProbability) {
+		} else if (mutationProbability < Main.MinMutationProbability) {
 			tf_mutationProbability.setText(String.valueOf(Main.MinMutationProbability));
-		} else if(mutationProbability > Main.MaxMutationProbability) {
+		} else if (mutationProbability > Main.MaxMutationProbability) {
 			tf_mutationProbability.setText(String.valueOf(Main.MaxMutationProbability));
 		} else {
 			Evolution.getInstance().setNumOfCities(numOfCities);
@@ -103,7 +103,7 @@ public class MainScene {
 
 			MatingStrategy selectedMatingStrategy = cb_mating_strategy.getSelectionModel().getSelectedItem();
 			Evolution.getInstance().setMatingStrategy(selectedMatingStrategy);
-			
+
 			CrossoverStrategy selectedCrossoverStrategy = cb_crossover_strategy.getSelectionModel().getSelectedItem();
 			Evolution.getInstance().setCrossoverStrategy(selectedCrossoverStrategy);
 
@@ -128,7 +128,8 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Evolution.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance, lbl_round);
+				Evolution.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance,
+						lbl_round);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
