@@ -57,6 +57,8 @@ public enum CrossoverStrategy {
 					one_point(childrenTourList, fatherTour, motherTour);
 					break;
 				}
+				
+				matingTourList.remove(0);
 			}
 		}
 
@@ -148,9 +150,8 @@ public enum CrossoverStrategy {
 					double end = stepSize;
 					
 					for (int j = 0; j < cityWithMinNumOfNeighbours.size(); j++) {
-						int keyIndex = cityWithMinNumOfNeighbours.get(j);
 						if (r >= start && r <= end) {
-							childCity = keys.get(cityWithMinNumOfNeighbours.get(keyIndex));
+							childCity = keys.get(cityWithMinNumOfNeighbours.get(j));
 							break;
 						}
 
