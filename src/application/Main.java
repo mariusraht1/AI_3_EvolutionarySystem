@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * Evolutionary System for Traveling Salesman Problem
  * 
  * @author Marius Raht
- * @version 07.07.2020-001
+ * @version 17.07.2020-001
  */
 public class Main extends Application {
 	private static Stage primaryStage;
