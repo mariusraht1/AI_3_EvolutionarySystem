@@ -6,7 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/linux"/>
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/osx"/>
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/windows"/>
