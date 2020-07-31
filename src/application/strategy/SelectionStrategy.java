@@ -1,10 +1,11 @@
 package application.strategy;
 
 import application.Log;
-import application.Utilities;
 import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public enum SelectionStrategy {
 	BEST("Bestenselektion"), FITNESS("Fitnessproportionale Selektion"), RANK("Rangselektion"),
@@ -52,20 +53,20 @@ public enum SelectionStrategy {
 		TourList result = new TourList();
 
 		for (int i = 0; i < Evolution.getInstance().getNumOfParents(); i++) {
-			result.add(Utilities.getInstance().deepCopy(tourList.get(i)));
+			result.add(GeneralUtilities.getInstance().deepCopy(tourList.get(i)));
 		}
 
 		return result;
 	}
 
 	private TourList fitness(TourList tourList) {
-		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
+		TourList tmpTourList = GeneralUtilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
 		double cumulatedFitness = tmpTourList.getTotalFitness();
 
 		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			double random = Utilities.getInstance().getRandom(0.0, 1.0);
+			double random = MathManager.getInstance().getRandom(0.0, 1.0);
 
 			for (Tour tour : tmpTourList) {
 				// fitness => shortest distance is better
@@ -83,7 +84,7 @@ public enum SelectionStrategy {
 	}
 
 	private TourList rank(TourList tourList) {
-		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
+		TourList tmpTourList = GeneralUtilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
 		double cumulatedRank = 0;
@@ -92,7 +93,7 @@ public enum SelectionStrategy {
 		}
 
 		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			double random = Utilities.getInstance().getRandom(0.0, 1.0);
+			double random = MathManager.getInstance().getRandom(0.0, 1.0);
 
 			for (Tour tour : tmpTourList) {
 				double rank = tourList.indexOf(tour) + 1;
@@ -112,14 +113,14 @@ public enum SelectionStrategy {
 	}
 
 	private TourList tournament(TourList tourList) {
-		TourList tmpTourList = Utilities.getInstance().deepCopy(tourList);
+		TourList tmpTourList = GeneralUtilities.getInstance().deepCopy(tourList);
 		TourList result = new TourList();
 
 		while (result.size() < Evolution.getInstance().getNumOfParents() && !tmpTourList.isEmpty()) {
-			int t1 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
-			int t2 = Utilities.getInstance().getRandom(0, tmpTourList.size() - 1);
+			int t1 = MathManager.getInstance().getRandom(0, tmpTourList.size() - 1);
+			int t2 = MathManager.getInstance().getRandom(0, tmpTourList.size() - 1);
 
-			double random = Utilities.getInstance().getRandom(0.0, 1.0);
+			double random = MathManager.getInstance().getRandom(0.0, 1.0);
 
 			double cumulatedFitness = tmpTourList.get(t1).getFitness() + tmpTourList.get(t2).getFitness();
 			double p1 = tmpTourList.get(t1).getFitness() / cumulatedFitness;

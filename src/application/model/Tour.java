@@ -2,8 +2,9 @@ package application.model;
 
 import java.io.Serializable;
 
-import application.Utilities;
 import javafx.scene.canvas.GraphicsContext;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public class Tour implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -64,7 +65,7 @@ public class Tour implements Serializable {
 	public Tour(Tour tour) {
 		this.id = tour.getId();
 		this.name = tour.getName();
-		this.cityList = Utilities.getInstance().deepCopy(tour.getCityList());
+		this.cityList = GeneralUtilities.getInstance().deepCopy(tour.getCityList());
 	}
 
 	public double getTotalDistance() {
@@ -79,7 +80,7 @@ public class Tour implements Serializable {
 			distance += Math.sqrt(xDistance + yDistance);
 		}
 
-		distance = Utilities.getInstance().formatDouble("0.00", distance);
+		distance = MathManager.getInstance().formatDouble("0.00", distance);
 
 		return distance;
 	}

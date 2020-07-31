@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import application.Log;
-import application.Utilities;
 import application.model.City;
 import application.model.CityList;
 import application.model.Evolution;
 import application.model.Tour;
 import application.model.TourList;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public enum CrossoverStrategy {
 	ONE_POINT("1-Point Crossover"), EDGE_OPERATOR("Edge Recombination Operator");
@@ -35,7 +36,7 @@ public enum CrossoverStrategy {
 		TourList parentTourList = new TourList(tourList);
 
 		for (Tour parentTour : parentTourList) {
-			int start = Utilities.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
+			int start = MathManager.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
 			int end = Evolution.getInstance().getNumOfCities() - 1;
 			Log.getInstance().add("Crossover: From " + start + " to " + end);
 
@@ -118,7 +119,7 @@ public enum CrossoverStrategy {
 				parentPart2Tour = tmpParentPartTour;
 			}
 
-			HashMap<City, CityList> tmpNeighbourCityList = Utilities.getInstance().deepCopy(neighbourCityList);
+			HashMap<City, CityList> tmpNeighbourCityList = GeneralUtilities.getInstance().deepCopy(neighbourCityList);
 			ArrayList<City> keys = new ArrayList<City>(tmpNeighbourCityList.keySet());
 			CityList childCityList = new CityList();
 			boolean firstRound = true;
@@ -144,7 +145,7 @@ public enum CrossoverStrategy {
 						}
 					}
 
-					double r = Utilities.getInstance().getRandom(0.0, 1.0);
+					double r = MathManager.getInstance().getRandom(0.0, 1.0);
 					double stepSize = 1.0 / cityWithMinNumOfNeighbours.size();
 					double start = 0.0;
 					double end = stepSize;
@@ -178,7 +179,7 @@ public enum CrossoverStrategy {
 	}
 
 	private void one_point(TourList childrenTourList, Tour fatherTour, Tour motherTour) {
-		int start = Utilities.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
+		int start = MathManager.getInstance().getRandom(0, Evolution.getInstance().getNumOfCities() - 2);
 		int end = Evolution.getInstance().getNumOfCities() - 1;
 		Log.getInstance().add("Crossover: From " + start + " to " + end);
 

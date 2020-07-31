@@ -27,5 +27,7 @@
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/windows/javafx.graphics.jar"/>
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/windows/javafx.media.jar"/>
 	<classpathentry kind="lib" path="lib/javafx-11.0.2/windows/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="D:/Downloads/GeneralUtilities.jar"/>
+	<classpathentry kind="lib" path="D:/Downloads/MathManager.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

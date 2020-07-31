@@ -6,10 +6,11 @@ import java.util.Collections;
 import java.util.List;
 
 import application.Log;
-import application.Utilities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public class TourList extends ArrayList<Tour> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -58,11 +59,11 @@ public class TourList extends ArrayList<Tour> implements Serializable {
 	}
 
 	public TourList getPercentile() {
-		TourList tmptourList = Utilities.getInstance().deepCopy(this);
+		TourList tmptourList = GeneralUtilities.getInstance().deepCopy(this);
 		TourList mutabletourList = new TourList();
 
 		for (Tour tour : tmptourList) {
-			double p = Utilities.getInstance().getRandom(0.0, 1.0);
+			double p = MathManager.getInstance().getRandom(0.0, 1.0);
 
 			if (p <= Evolution.getInstance().getMutationProbability()) {
 				mutabletourList.add(tour);

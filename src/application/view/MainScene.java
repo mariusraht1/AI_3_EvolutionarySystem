@@ -3,7 +3,6 @@ package application.view;
 import application.History;
 import application.Log;
 import application.Main;
-import application.Utilities;
 import application.model.CityList;
 import application.model.Evolution;
 import application.strategy.CrossoverStrategy;
@@ -18,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import library.MathManager;
 
 public class MainScene {
 	@FXML
@@ -83,8 +83,8 @@ public class MainScene {
 
 	@FXML
 	private void onAction_setOptions() {
-		int numOfCities = Utilities.getInstance().parseInt(tf_numOfCities.getText());
-		double mutationProbability = Utilities.getInstance().parseDouble(tf_mutationProbability.getText());
+		int numOfCities = MathManager.getInstance().parseInt(tf_numOfCities.getText());
+		double mutationProbability = MathManager.getInstance().parseDouble(tf_mutationProbability.getText());
 
 		if (numOfCities < Main.MinNumOfCities) {
 			tf_numOfCities.setText(String.valueOf(Main.MinNumOfCities));
@@ -120,19 +120,14 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnPlay() {
-		try {
-			int numOfSteps = Integer.parseInt(tf_numOfSteps.getText());
+		int numOfSteps = MathManager.getInstance().parseInt(tf_numOfSteps.getText());
 
-			if (numOfSteps <= 0) {
-				tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
-			} else if (numOfSteps > Main.MaxNumOfSteps) {
-				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
-			} else {
-				Evolution.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance,
-						lbl_round);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (numOfSteps <= 0) {
+			tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
+		} else if (numOfSteps > Main.MaxNumOfSteps) {
+			tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
+		} else {
+			Evolution.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance, lbl_round);
 		}
 	}
 

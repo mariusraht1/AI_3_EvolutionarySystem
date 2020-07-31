@@ -1,10 +1,10 @@
 package application.strategy;
 
 import application.Log;
-import application.Utilities;
 import application.model.City;
 import application.model.Tour;
 import application.model.TourList;
+import library.MathManager;
 
 public enum MutationStrategy {
 	SWAPPING("2 zufällige Städte vertauschen"), INVERSION("Sequenz zwischen 2 zufälligen Punkten spiegeln");
@@ -45,8 +45,8 @@ public enum MutationStrategy {
 		TourList mutatedTourList = childrenTourList.getPercentile();
 
 		for (Tour tour : mutatedTourList) {
-			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
-			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r1 = MathManager.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r2 = MathManager.getInstance().getRandom(0, tour.getCityList().size() - 1);
 
 			Log.getInstance().add(tour.getName() + ": Zwischen " + r1 + " und " + r2 + " spiegeln.");
 
@@ -91,8 +91,8 @@ public enum MutationStrategy {
 		TourList mutatedTourList = childrenTourList.getPercentile();
 
 		for (Tour tour : mutatedTourList) {
-			int r1 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
-			int r2 = Utilities.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r1 = MathManager.getInstance().getRandom(0, tour.getCityList().size() - 1);
+			int r2 = MathManager.getInstance().getRandom(0, tour.getCityList().size() - 1);
 
 			Log.getInstance().add(tour.getName() + ": Vertausche Indizes " + r1 + " und " + r2 + " miteinander.");
 

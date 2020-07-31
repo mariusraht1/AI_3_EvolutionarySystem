@@ -5,7 +5,6 @@ import java.util.Arrays;
 import application.History;
 import application.Log;
 import application.Main;
-import application.Utilities;
 import application.strategy.CrossoverStrategy;
 import application.strategy.MatingStrategy;
 import application.strategy.MutationStrategy;
@@ -13,6 +12,8 @@ import application.strategy.ReplacementStrategy;
 import application.strategy.SelectionStrategy;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public class Evolution {
 	private static Evolution instance;
@@ -171,8 +172,8 @@ public class Evolution {
 		CityList cityList = new CityList();
 
 		for (int i = 1; i <= numOfCities; i++) {
-			int x = Utilities.getInstance().getRandom(0, (int) canvas.getWidth());
-			int y = Utilities.getInstance().getRandom(0, (int) canvas.getHeight());
+			int x = MathManager.getInstance().getRandom(0, (int) canvas.getWidth());
+			int y = MathManager.getInstance().getRandom(0, (int) canvas.getHeight());
 			cityList.add(new City(i, x, y));
 		}
 
@@ -186,10 +187,10 @@ public class Evolution {
 
 		for (int i = 0; i < this.numOfTours; i++) {
 			CityList cityListPerTour = new CityList(Arrays.asList(new City[numOfCities]));
-			CityList tmpcityList = Utilities.getInstance().deepCopy(cityList);
+			CityList tmpcityList = GeneralUtilities.getInstance().deepCopy(cityList);
 
 			for (int j = 0; j < getNumOfCities(); j++) {
-				int random = Utilities.getInstance().getRandom(0, tmpcityList.size() - 1);
+				int random = MathManager.getInstance().getRandom(0, tmpcityList.size() - 1);
 				cityListPerTour.set(j, tmpcityList.get(random));
 				tmpcityList.remove(random);
 			}
@@ -213,7 +214,7 @@ public class Evolution {
 			TourList childrenTourList = crossover(parentTourList);
 			childrenTourList = mutate(childrenTourList);
 			childrenTourList.rateFitness();
-			prevGeneration = Utilities.getInstance().deepCopy(nextGeneration);
+			prevGeneration = GeneralUtilities.getInstance().deepCopy(nextGeneration);
 			nextGeneration = replace(parentTourList, childrenTourList);
 			nextGeneration.sort();
 

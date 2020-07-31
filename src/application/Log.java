@@ -48,7 +48,7 @@ public class Log {
 		} else {
 			buffer.add(message);
 		}
-		
+
 		control.scrollTo(control.getItems().size());
 	}
 
