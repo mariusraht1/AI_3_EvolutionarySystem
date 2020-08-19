@@ -89,7 +89,7 @@ public class Evolution {
 			numOfTours = Main.DefaultNumOfTours;
 		}
 
-		Log.getInstance().add("Setze Touranzahl auf " + String.valueOf(numOfTours));
+		Log.getInstance().addCritical("Setze Touranzahl auf " + String.valueOf(numOfTours));
 		this.numOfTours = numOfTours;
 	}
 

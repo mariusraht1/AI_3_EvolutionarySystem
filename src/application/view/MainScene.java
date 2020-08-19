@@ -13,6 +13,7 @@ import application.strategy.SelectionStrategy;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -36,6 +37,8 @@ public class MainScene {
 	private TextField tf_mutationProbability;
 	@FXML
 	private TextField tf_numOfSteps;
+	@FXML
+	private CheckBox chk_disableLogging;
 	@FXML
 	private Label lbl_minTotalDistance;
 	@FXML
@@ -127,6 +130,9 @@ public class MainScene {
 		} else if (numOfSteps > Main.MaxNumOfSteps) {
 			tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 		} else {
+			boolean disableLogging = chk_disableLogging.isSelected();
+			Log.getInstance().setDisable(disableLogging);
+			
 			Evolution.getInstance().play(numOfSteps, cv_tours, lbl_minTotalDistance, lbl_maxTotalDistance, lbl_round);
 		}
 	}
