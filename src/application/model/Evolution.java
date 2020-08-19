@@ -253,14 +253,14 @@ public class Evolution {
 				}
 
 				if (exit) {
-					Log.getInstance().add("Ende: Lösungsmenge besitzt homogene Fitness-Werte.");
+					Log.getInstance().addCritical("Ende: Lösungsmenge besitzt homogene Fitness-Werte.");
 				}
 
 				break;
 			case 1:
 				if (prevGeneration != nextGeneration
 						&& prevGeneration.getFitnessMean() == nextGeneration.getFitnessMean()) {
-					Log.getInstance().add("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
+					Log.getInstance().addCritical("Ende: Keine Veränderung der Lösungsmenge im Mittel mehr.");
 					exit = true;
 				}
 				break;
